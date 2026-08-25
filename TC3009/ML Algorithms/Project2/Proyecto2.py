@@ -3,35 +3,30 @@ Nombre: Amilka Daniela Lopez Aguilar
 Matrícula: A01029277
 Proyecto 2: Regresión Logística Vectorizada
 '''
-
+# importar librerías matemáticas y de graficación
 import numpy as np
 import matplotlib.pyplot as plt
 
-def leer_archivo(nombre_archivo):
+def graficarDatos(X, y, Theta):
     '''
-    Función para leer un archivo de texto y devolver los datos en un arreglo de NumPy.
-    Recibe el archivo y regresa los datos, separados x y, donde hay dos valores de x.
+    Recibe el vector de entradas X, salidas y, y un vector theta. Grafica los
+    datos en 2D. Los ejes son las dos calificaciones y pone una X si resultó 
+    admitido y una O si no fue admitido. 
+    También grafica la recta cuyos parámetros son los del vector theta dado.
     '''
-    datos = np.loadtxt(nombre_archivo, delimiter=',')
-    x = datos[0:2, :].T
-    y = datos[2, :]
-    return datos
-
-def graficar_datos(x, y):
-    '''
-    Función para graficar los datos de entrada.
-    Recibe los datos x y y, donde x tiene dos características y y es la etiqueta.
-    Utilizando un for loop
-    '''
+    # grafico de datos
     for i in range(len(y)):
-        if y[i] == 0:
-            plt.scatter(x[i, 1], x[i, 2], color='red', marker='o', label='Clase 0' if i == 0 else "")
+        if y[i] == 1:
+            plt.scatter(X[i, 1], X[i, 2], color='blue', marker='x', label='Admitido' if i == 0 else "")
         else:
-            plt.scatter(x[i, 1], x[i, 2], color='blue', marker='x', label='Clase 1' if i == 0 else "")
-
-    plt.xlabel('Característica 1')
-    plt.ylabel('Característica 2')
-    plt.title('Datos de Entrenamiento')
+            plt.scatter(X[i, 1], X[i, 2], color='red', marker='o', label='No Admitido' if i == 0 else "")
+    # graficar la recta de decisión
+    x1 = np.array([np.min(X[:, 1]), np.max(X[:, 1])]) # un minimo y un maximo que tomamos como límites y "trazamos el camino" con x2
+    x2 = -(Theta[0] + Theta[1] * x1) / Theta[2] # 0 de la sigmoidal, es decir, h_theta = 0.5
+    plt.plot(x1, x2, color='green', label='Recta de Decisión')
+    plt.xlabel('Examen 1')
+    plt.ylabel('Examen 2')
+    plt.title('Resultados de Admisión')
     plt.show()
 
 def funcion_sigmoidal(z):
@@ -41,67 +36,41 @@ def funcion_sigmoidal(z):
     '''
     return 1 / (1 + np.exp(-z))
 
-def h_theta(x, theta_cero, theta_uno, theta_dos):
+def funcionCosto(X, y, Theta):
     '''
-    Función de hipótesis para la regresión logística.
-    Recibe los datos x y los parámetros theta, y devuelve la predicción.
+    Recibe el vector de entrada X, el de salida y, y un vector theta. Debe
+    regresar la función de costo J y el gradiente grad. 
+    Es decir, debe regresar las variables [J,grad].
     '''
-
-    return funcion_sigmoidal(theta_cero + np.dot(x[:, 1], theta_uno) + np.dot(x[:, 2], theta_dos))
-
-def costo(x, y, theta_cero, theta_uno, theta_dos):
-    '''
-    Función de costo para la regresión logística.
-    Recibe los datos x, y y los parámetros theta, y devuelve el costo.
-    '''
-
     m = len(y)
-    h = h_theta(x, theta_cero, theta_uno, theta_dos)
-    return (-1/m) * np.sum(y * np.log(h) + (1 - y) * np.log(1 - h))
+    h = funcion_sigmoidal(np.dot(X, Theta))
+    gradiente = (1/m) * np.dot(X.T, (h - y))
+    J = (-1/m) * np.sum(y * np.log(h) + (1 - y) * np.log(1 - h))
+    return J, gradiente
 
-def error(x, y, theta_cero, theta_uno, theta_dos):
+def aprende(X, y, Theta, num_iter):
     '''
-    Función para calcular el error de predicción.
-    Recibe los datos x, y y los parámetros theta, y devuelve el error.
+    Recibe el vector de entrada X, el de salida y, un vector theta
+    inicial (el cual puede ser el vector 0) y el número de iteraciones que se correrá el gradiente
+    descendente. Debe regresar el vector de parámetros theta, encontrado por gradiente
+    descendente. Si todo es correcto, al mandar a llamar a funcionCosto con el vector theta
+    encontrado, el resultado debe ser alrededor de 0.203.
     '''
-
-    h = h_theta(x, theta_cero, theta_uno, theta_dos)
-
-    return np.mean((h >= 0.5) != y)
-
-def gradiente_descendente(x, y, theta_cero, theta_uno, theta_dos, alpha, num_iter):
-    '''
-    Función para realizar el gradiente descendente.
-    Recibe los datos x, y, los parámetros theta, la tasa de aprendizaje alpha y
-    el número de iteraciones.
-    Devuelve los parámetros theta actualizados y el historial de costos.
-    '''
-
-    m = len(y)
-    costos = []
-
+    alpha = 0.0041
     for i in range(num_iter):
+        J, gradiente = funcionCosto(X, y, Theta)
+        Theta = Theta - alpha * gradiente
+    return Theta
 
-        h = h_theta(x, theta_cero, theta_uno, theta_dos)
-
-        gradiente_cero = (1/m) * np.sum(h - y)
-        gradiente_uno = (1/m) * np.sum((h - y) * x[:, 1])
-        gradiente_dos = (1/m) * np.sum((h - y) * x[:, 2])
-
-        theta_cero -= alpha * gradiente_cero
-        theta_uno -= alpha * gradiente_uno
-        theta_dos -= alpha * gradiente_dos
-
-        costos.append(costo(x, y, theta_cero, theta_uno, theta_dos))
-
-    return theta_cero, theta_uno, theta_dos, costos
-
-def prediccion(x, theta_cero, theta_uno, theta_dos):
+def predice(X, Theta):
     '''
-    Función para realizar predicciones con los parámetros theta.
-    Recibe los datos x y los parámetros theta, y devuelve las predicciones.
+    Recibe un vector theta y un vector X para varios estudiantes. Regresa el vector
+    p de predicción sobre su aceptación utilizando un valor de umbral natural de 0.5, es decir, si da
+    más o igual a 0.5 se acepta (regresa un 1) y si no, se rechaza (regresa 0). Si recibe m estudiantes,
+    regresa un vector p de m predicciones. Si todo es correcto, un estudiante con examen 1 de 45 y
+    examen 2 de 85, tendrá una probabilidad de ser admitido de 0.774 y entonces predice 1
     '''
-    h = h_theta(x, theta_cero, theta_uno, theta_dos)
+    h = funcion_sigmoidal(np.dot(X, Theta))
     predicciones = []
     for i in range(len(h)):
         if h[i] >= 0.5:
@@ -110,33 +79,6 @@ def prediccion(x, theta_cero, theta_uno, theta_dos):
             predicciones.append(0)
     return np.array(predicciones)
 
-def accuracy(y_true, y_pred):
-    '''
-    Función para calcular la exactitud de las predicciones.
-    Recibe los valores verdaderos y las predicciones, y devuelve la exactitud.
-    '''
-    return np.mean(y_true == y_pred) * 100
-
-def recta_limite(x, y, theta_cero, theta_uno, theta_dos):
-    '''
-    Función para graficar la recta de límite, punto en medio de la sigmoidal
-    Usando x1 y x2, donde x1 es la primera característica y x2 es la segunda característica.
-    Recibe los datos x, y y los parámetros theta, y grafica la recta de límite.
-    theta cero + theta_uno * x1 + theta_dos * x2 = 0
-    '''
-    for i in range(len(y)):
-        if y[i] == 0:
-            plt.scatter(x[i, 1], x[i, 2], color='red', marker='o', label='Clase 0' if i == 0 else "")
-        else:
-            plt.scatter(x[i, 1], x[i, 2], color='blue', marker='x', label='Clase 1' if i == 0 else "")
-            x1 = np.linspace(np.min(x[:, 1]), np.max(x[:, 1]), 100)
-            x2 = -(theta_cero + theta_uno * x1) / theta_dos
-            plt.plot(x1, x2, color='green', label='Recta de límite')
-    plt.xlabel('Característica 1')
-    plt.ylabel('Característica 2')
-    plt.title('Datos de Entrenamiento con Recta de Límite')
-    plt.show()
-
 '''
 Pase a producción, usando el csv proporcionado y
 en un main para evitar interferir con la llamada a funciones desde otros archivos.
@@ -144,32 +86,48 @@ en un main para evitar interferir con la llamada a funciones desde otros archivo
 
 if __name__ == "__main__":
 
-    datos = leer_archivo("TC3009/ML Algorithms/Project2/RegLog.csv")
+    # cargamos el archivo de prueba
+    datos = np.loadtxt('ML Algorithms/Project2/ex2data1.txt', delimiter=',', unpack=True)
 
-    x = datos[:, 0:2]
-    y = datos[:, 2]
+    # extraer columnas de X y, poner la columna de 1's en X para vectorización
+    X = np.array([np.ones(len(datos[0])), datos[0], datos[1]]).T # -> x = 1 (de longitud x1 y por ende de x2) x1 x2 transpuesta para lectura y extracción
+    y = datos[2]
 
-    x = np.column_stack((np.ones(len(x)), x))
+    # inicializamos theta en 0
+    Theta = np.array([0, 0, 0])
 
-    graficar_datos(x, y)
+    #graficamos los datos
+    graficarDatos(X, y, Theta)
 
-    theta_cero = 0.0
-    theta_uno = 0.0
-    theta_dos = 0.0
+    # calculamos la función de costo y el gradiente
+    J, gradiente = funcionCosto(X, y, Theta)
 
-    alpha = 0.1
-    num_iter = 4000
+    print("Costo inicial: ", J)
+    print("Gradiente inicial: ", gradiente)
 
-    theta_cero, theta_uno, theta_dos, costos = gradiente_descendente(x, y, theta_cero, theta_uno, theta_dos, alpha, num_iter)
+    # aprendemos los parámetros theta
+    Theta = aprende(X, y, Theta, 780000)
+    print("Theta final: ", Theta)
 
-    costo_final = costo(x, y, theta_cero, theta_uno, theta_dos)
+    # calculamos la función de costo y el gradiente con los nuevos parámetros
+    J, gradiente = funcionCosto(X, y, Theta)
+    print("Costo final: ", J) # verificado -> 0.203 vs 0.20350876005795487
+    print("Gradiente final: ", gradiente)
 
-    print("Costo final:", costo_final)
+    # graficamos los datos con la recta de decisión
+    graficarDatos(X, y, Theta)
 
-    predicciones = prediccion(x, theta_cero, theta_uno, theta_dos)
+    # probamos la predicción con un estudiante de examen 1 = 45 y examen 2 = 85
+    estudiante = np.array([[1, 45, 85]])
+    prediccion = predice(estudiante, Theta)
+    print("Predicción para estudiante con examen 1 = 45 y examen 2 = 85: ", prediccion[0]) # verificado -> 1 vs 1
+    print("Probabilidad de ser admitido: ", funcion_sigmoidal(np.dot(estudiante, Theta))) # verificado -> 0.774 vs 0.77403296
 
-    exactitud = accuracy(y, predicciones)
+'''
+¿Es necesario agregar la columna de 1s a X para facilitar la vectorización?
 
-    print("Exactitud del modelo:", exactitud)
-
-    recta_limite(x, y, theta_cero, theta_uno, theta_dos)
+Sí, ya que esto permite tener un termine constante y 
+formar operaciones con matrices de esta forma, por ejemplo:
+z = Xθ, lo que en código se traduce a np.dot(X, Theta), 
+en lugar de usar fors y hacer un código lento y redundante.
+'''
