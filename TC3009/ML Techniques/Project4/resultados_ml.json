@@ -1,0 +1,2014 @@
+{
+    "experimentos": [
+        {
+            "modelo": "Arquitectura_Inicial",
+            "parametros": {
+                "features": 5000,
+                "hidden_layer_1": 128,
+                "hidden_layer_2": 64,
+                "dropout": 0.2,
+                "epochs": 3,
+                "batch_size": 32,
+                "n_splits": 5,
+                "optimizer": "adam"
+            },
+            "metricas": {
+                "accuracy": 0.940739145971567,
+                "balanced_accuracy": 0.9406967341284204,
+                "macro_precision": 0.9403773486957787,
+                "micro_precision": 0.940739145971567,
+                "macro_recall": 0.9406967341284204,
+                "micro_recall": 0.940739145971567,
+                "macro_f1": 0.9399947972027025,
+                "micro_f1": 0.940739145971567,
+                "macro_roc_auc": 0.9945669949219027,
+                "micro_roc_auc": 0.9954915641208674
+            }
+        },
+        {
+            "modelo": "Sin_Dropout_5_Epocas",
+            "parametros": {
+                "features": 5000,
+                "hidden_layer_1": 128,
+                "hidden_layer_2": 64,
+                "dropout": 0.0,
+                "epochs": 5,
+                "batch_size": 32,
+                "n_splits": 5,
+                "optimizer": "adam"
+            },
+            "metricas": null
+        },
+        {
+            "modelo": "Sin_Dropout_10_Epocas",
+            "parametros": {
+                "features": 5000,
+                "hidden_layer_1": 128,
+                "hidden_layer_2": 64,
+                "dropout": 0.0,
+                "epochs": 10,
+                "batch_size": 32,
+                "n_splits": 5,
+                "optimizer": "adam"
+            },
+            "metricas": null
+        },
+        {
+            "modelo": "Exp_1_prep_lowercase_freq_10_features_3000_k_3_Dense_128_64_Dropout_epochs_5",
+            "parametros": {
+                "preprocessing": [
+                    "lowercase"
+                ],
+                "minimum_frequency": 10,
+                "features_requested": 3000,
+                "features_obtained": 3000,
+                "kfold": 3,
+                "architecture": "Dense_128_64_Dropout",
+                "layers": [
+                    [
+                        "dense",
+                        128,
+                        "relu"
+                    ],
+                    [
+                        "dropout",
+                        0.2
+                    ],
+                    [
+                        "dense",
+                        64,
+                        "relu"
+                    ],
+                    [
+                        "dropout",
+                        0.2
+                    ]
+                ],
+                "epochs": 5,
+                "batch_size": 128,
+                "optimizer": "adam",
+                "loss": "sparse_categorical_crossentropy",
+                "elapsed_seconds": 9.94
+            },
+            "metricas": {
+                "cross_validation": {
+                    "accuracy": 0.6673750755333687,
+                    "balanced_accuracy": 0.6673082589875156,
+                    "macro_precision": 0.7276525230141001,
+                    "micro_precision": 0.6673750755333687,
+                    "macro_recall": 0.6673082589875156,
+                    "micro_recall": 0.6673750755333687,
+                    "macro_f1": 0.6519866888319026,
+                    "micro_f1": 0.6673750755333687,
+                    "macro_roc_auc": 0.9364530650570838,
+                    "micro_roc_auc": 0.9714858008564771
+                },
+                "test": {
+                    "accuracy": 0.66875,
+                    "balanced_accuracy": 0.66875,
+                    "macro_precision": 0.7617631808371434,
+                    "micro_precision": 0.66875,
+                    "macro_recall": 0.66875,
+                    "micro_recall": 0.66875,
+                    "macro_f1": 0.6536822706814882,
+                    "micro_f1": 0.66875,
+                    "macro_roc_auc": 0.9380207236842105,
+                    "micro_roc_auc": 0.9714428108552632
+                }
+            }
+        },
+        {
+            "modelo": "Exp_2_prep_lowercase_freq_10_features_3000_k_3_Dense_128_64_Dropout_epochs_7",
+            "parametros": {
+                "preprocessing": [
+                    "lowercase"
+                ],
+                "minimum_frequency": 10,
+                "features_requested": 3000,
+                "features_obtained": 3000,
+                "kfold": 3,
+                "architecture": "Dense_128_64_Dropout",
+                "layers": [
+                    [
+                        "dense",
+                        128,
+                        "relu"
+                    ],
+                    [
+                        "dropout",
+                        0.2
+                    ],
+                    [
+                        "dense",
+                        64,
+                        "relu"
+                    ],
+                    [
+                        "dropout",
+                        0.2
+                    ]
+                ],
+                "epochs": 7,
+                "batch_size": 128,
+                "optimizer": "adam",
+                "loss": "sparse_categorical_crossentropy",
+                "elapsed_seconds": 9.57
+            },
+            "metricas": {
+                "cross_validation": {
+                    "accuracy": 0.668562720091236,
+                    "balanced_accuracy": 0.6684952222262958,
+                    "macro_precision": 0.7289818263521054,
+                    "micro_precision": 0.668562720091236,
+                    "macro_recall": 0.6684952222262958,
+                    "micro_recall": 0.668562720091236,
+                    "macro_f1": 0.6535493862186418,
+                    "micro_f1": 0.668562720091236,
+                    "macro_roc_auc": 0.9363994982021335,
+                    "micro_roc_auc": 0.9715974356948994
+                },
+                "test": {
+                    "accuracy": 0.67075,
+                    "balanced_accuracy": 0.6707499999999998,
+                    "macro_precision": 0.7317670684452783,
+                    "micro_precision": 0.67075,
+                    "macro_recall": 0.6707499999999998,
+                    "micro_recall": 0.67075,
+                    "macro_f1": 0.6574651201781738,
+                    "micro_f1": 0.67075,
+                    "macro_roc_auc": 0.9379029276315789,
+                    "micro_roc_auc": 0.9716680032894737
+                }
+            }
+        },
+        {
+            "modelo": "Exp_3_prep_lowercase_freq_10_features_3000_k_3_Dense_512_256_128_Dropout_epochs_5",
+            "parametros": {
+                "preprocessing": [
+                    "lowercase"
+                ],
+                "minimum_frequency": 10,
+                "features_requested": 3000,
+                "features_obtained": 3000,
+                "kfold": 3,
+                "architecture": "Dense_512_256_128_Dropout",
+                "layers": [
+                    [
+                        "dense",
+                        512,
+                        "relu"
+                    ],
+                    [
+                        "dropout",
+                        0.3
+                    ],
+                    [
+                        "dense",
+                        256,
+                        "relu"
+                    ],
+                    [
+                        "dropout",
+                        0.3
+                    ],
+                    [
+                        "dense",
+                        128,
+                        "relu"
+                    ],
+                    [
+                        "dropout",
+                        0.2
+                    ]
+                ],
+                "epochs": 5,
+                "batch_size": 200,
+                "optimizer": "adam",
+                "loss": "sparse_categorical_crossentropy",
+                "elapsed_seconds": 13.09
+            },
+            "metricas": {
+                "cross_validation": {
+                    "accuracy": 0.668687669292159,
+                    "balanced_accuracy": 0.6686216982283281,
+                    "macro_precision": 0.7334463125510919,
+                    "micro_precision": 0.668687669292159,
+                    "macro_recall": 0.6686216982283281,
+                    "micro_recall": 0.668687669292159,
+                    "macro_f1": 0.6500711833911278,
+                    "micro_f1": 0.668687669292159,
+                    "macro_roc_auc": 0.9360200367624216,
+                    "micro_roc_auc": 0.9712762236588439
+                },
+                "test": {
+                    "accuracy": 0.6695,
+                    "balanced_accuracy": 0.6695,
+                    "macro_precision": 0.7217481059152219,
+                    "micro_precision": 0.6695,
+                    "macro_recall": 0.6695,
+                    "micro_recall": 0.6695,
+                    "macro_f1": 0.6555659542081604,
+                    "micro_f1": 0.6695,
+                    "macro_roc_auc": 0.9371364802631579,
+                    "micro_roc_auc": 0.9709462434210526
+                }
+            }
+        },
+        {
+            "modelo": "Exp_4_prep_lowercase_freq_10_features_3000_k_3_Dense_512_256_128_Dropout_epochs_7",
+            "parametros": {
+                "preprocessing": [
+                    "lowercase"
+                ],
+                "minimum_frequency": 10,
+                "features_requested": 3000,
+                "features_obtained": 3000,
+                "kfold": 3,
+                "architecture": "Dense_512_256_128_Dropout",
+                "layers": [
+                    [
+                        "dense",
+                        512,
+                        "relu"
+                    ],
+                    [
+                        "dropout",
+                        0.3
+                    ],
+                    [
+                        "dense",
+                        256,
+                        "relu"
+                    ],
+                    [
+                        "dropout",
+                        0.3
+                    ],
+                    [
+                        "dense",
+                        128,
+                        "relu"
+                    ],
+                    [
+                        "dropout",
+                        0.2
+                    ]
+                ],
+                "epochs": 7,
+                "batch_size": 200,
+                "optimizer": "adam",
+                "loss": "sparse_categorical_crossentropy",
+                "elapsed_seconds": 15.6
+            },
+            "metricas": {
+                "cross_validation": {
+                    "accuracy": 0.6685626380343445,
+                    "balanced_accuracy": 0.6684935760006333,
+                    "macro_precision": 0.733943115013253,
+                    "micro_precision": 0.6685626380343445,
+                    "macro_recall": 0.6684935760006333,
+                    "micro_recall": 0.6685626380343445,
+                    "macro_f1": 0.6538709899873859,
+                    "micro_f1": 0.6685626380343445,
+                    "macro_roc_auc": 0.9353830503408888,
+                    "micro_roc_auc": 0.9709774153307867
+                },
+                "test": {
+                    "accuracy": 0.6725,
+                    "balanced_accuracy": 0.6725000000000001,
+                    "macro_precision": 0.7718156893633619,
+                    "micro_precision": 0.6725,
+                    "macro_recall": 0.6725000000000001,
+                    "micro_recall": 0.6725,
+                    "macro_f1": 0.6643382686221595,
+                    "micro_f1": 0.6725,
+                    "macro_roc_auc": 0.9370547039473685,
+                    "micro_roc_auc": 0.9712507154605264
+                }
+            }
+        },
+        {
+            "modelo": "Exp_5_prep_lowercase_freq_10_features_3000_k_3_Dense_BatchNorm_Dropout_epochs_5",
+            "parametros": {
+                "preprocessing": [
+                    "lowercase"
+                ],
+                "minimum_frequency": 10,
+                "features_requested": 3000,
+                "features_obtained": 3000,
+                "kfold": 3,
+                "architecture": "Dense_BatchNorm_Dropout",
+                "layers": [
+                    [
+                        "dense",
+                        256,
+                        "relu"
+                    ],
+                    [
+                        "batchnorm"
+                    ],
+                    [
+                        "dropout",
+                        0.3
+                    ],
+                    [
+                        "dense",
+                        128,
+                        "relu"
+                    ],
+                    [
+                        "batchnorm"
+                    ],
+                    [
+                        "dropout",
+                        0.2
+                    ],
+                    [
+                        "dense",
+                        64,
+                        "relu"
+                    ]
+                ],
+                "epochs": 5,
+                "batch_size": 128,
+                "optimizer": "adam",
+                "loss": "sparse_categorical_crossentropy",
+                "elapsed_seconds": 11.5
+            },
+            "metricas": {
+                "cross_validation": {
+                    "accuracy": 0.660061215847746,
+                    "balanced_accuracy": 0.6598866096766189,
+                    "macro_precision": 0.7442987725269257,
+                    "micro_precision": 0.660061215847746,
+                    "macro_recall": 0.6598866096766189,
+                    "micro_recall": 0.660061215847746,
+                    "macro_f1": 0.6415939045593805,
+                    "micro_f1": 0.660061215847746,
+                    "macro_roc_auc": 0.9359538390180214,
+                    "micro_roc_auc": 0.9679788709337759
+                },
+                "test": {
+                    "accuracy": 0.664,
+                    "balanced_accuracy": 0.6639999999999999,
+                    "macro_precision": 0.7904461080655423,
+                    "micro_precision": 0.664,
+                    "macro_recall": 0.6639999999999999,
+                    "micro_recall": 0.664,
+                    "macro_f1": 0.6507962225748529,
+                    "micro_f1": 0.664,
+                    "macro_roc_auc": 0.9375251973684211,
+                    "micro_roc_auc": 0.9704009605263159
+                }
+            }
+        },
+        {
+            "modelo": "Exp_6_prep_lowercase_freq_10_features_3000_k_3_Dense_BatchNorm_Dropout_epochs_7",
+            "parametros": {
+                "preprocessing": [
+                    "lowercase"
+                ],
+                "minimum_frequency": 10,
+                "features_requested": 3000,
+                "features_obtained": 3000,
+                "kfold": 3,
+                "architecture": "Dense_BatchNorm_Dropout",
+                "layers": [
+                    [
+                        "dense",
+                        256,
+                        "relu"
+                    ],
+                    [
+                        "batchnorm"
+                    ],
+                    [
+                        "dropout",
+                        0.3
+                    ],
+                    [
+                        "dense",
+                        128,
+                        "relu"
+                    ],
+                    [
+                        "batchnorm"
+                    ],
+                    [
+                        "dropout",
+                        0.2
+                    ],
+                    [
+                        "dense",
+                        64,
+                        "relu"
+                    ]
+                ],
+                "epochs": 7,
+                "batch_size": 128,
+                "optimizer": "adam",
+                "loss": "sparse_categorical_crossentropy",
+                "elapsed_seconds": 13.71
+            },
+            "metricas": {
+                "cross_validation": {
+                    "accuracy": 0.6608113682273934,
+                    "balanced_accuracy": 0.6606366191076588,
+                    "macro_precision": 0.7267502379060679,
+                    "micro_precision": 0.6608113682273934,
+                    "macro_recall": 0.6606366191076588,
+                    "micro_recall": 0.6608113682273934,
+                    "macro_f1": 0.64478879702753,
+                    "micro_f1": 0.6608113682273934,
+                    "macro_roc_auc": 0.935796239539144,
+                    "micro_roc_auc": 0.9696986055239943
+                },
+                "test": {
+                    "accuracy": 0.667,
+                    "balanced_accuracy": 0.6669999999999999,
+                    "macro_precision": 0.7382085516786833,
+                    "micro_precision": 0.667,
+                    "macro_recall": 0.6669999999999999,
+                    "micro_recall": 0.667,
+                    "macro_f1": 0.6517972821938598,
+                    "micro_f1": 0.667,
+                    "macro_roc_auc": 0.9379698026315791,
+                    "micro_roc_auc": 0.9709437532894737
+                }
+            }
+        },
+        {
+            "modelo": "Exp_7_prep_lowercase_freq_10_features_3000_k_5_Dense_128_64_Dropout_epochs_5",
+            "parametros": {
+                "preprocessing": [
+                    "lowercase"
+                ],
+                "minimum_frequency": 10,
+                "features_requested": 3000,
+                "features_obtained": 3000,
+                "kfold": 5,
+                "architecture": "Dense_128_64_Dropout",
+                "layers": [
+                    [
+                        "dense",
+                        128,
+                        "relu"
+                    ],
+                    [
+                        "dropout",
+                        0.2
+                    ],
+                    [
+                        "dense",
+                        64,
+                        "relu"
+                    ],
+                    [
+                        "dropout",
+                        0.2
+                    ]
+                ],
+                "epochs": 5,
+                "batch_size": 128,
+                "optimizer": "adam",
+                "loss": "sparse_categorical_crossentropy",
+                "elapsed_seconds": 12.23
+            },
+            "metricas": {
+                "cross_validation": {
+                    "accuracy": 0.6716881056580182,
+                    "balanced_accuracy": 0.671625,
+                    "macro_precision": 0.7435358493183136,
+                    "micro_precision": 0.6716881056580182,
+                    "macro_recall": 0.671625,
+                    "micro_recall": 0.6716881056580182,
+                    "macro_f1": 0.656864384335101,
+                    "micro_f1": 0.6716881056580182,
+                    "macro_roc_auc": 0.9370521238577,
+                    "micro_roc_auc": 0.971816240613473
+                },
+                "test": {
+                    "accuracy": 0.66825,
+                    "balanced_accuracy": 0.66825,
+                    "macro_precision": 0.7386801915967026,
+                    "micro_precision": 0.66825,
+                    "macro_recall": 0.66825,
+                    "micro_recall": 0.66825,
+                    "macro_f1": 0.6574949441507827,
+                    "micro_f1": 0.66825,
+                    "macro_roc_auc": 0.9381417105263157,
+                    "micro_roc_auc": 0.9715045394736842
+                }
+            }
+        },
+        {
+            "modelo": "Exp_8_prep_lowercase_freq_10_features_3000_k_5_Dense_128_64_Dropout_epochs_7",
+            "parametros": {
+                "preprocessing": [
+                    "lowercase"
+                ],
+                "minimum_frequency": 10,
+                "features_requested": 3000,
+                "features_obtained": 3000,
+                "kfold": 5,
+                "architecture": "Dense_128_64_Dropout",
+                "layers": [
+                    [
+                        "dense",
+                        128,
+                        "relu"
+                    ],
+                    [
+                        "dropout",
+                        0.2
+                    ],
+                    [
+                        "dense",
+                        64,
+                        "relu"
+                    ],
+                    [
+                        "dropout",
+                        0.2
+                    ]
+                ],
+                "epochs": 7,
+                "batch_size": 128,
+                "optimizer": "adam",
+                "loss": "sparse_categorical_crossentropy",
+                "elapsed_seconds": 12.69
+            },
+            "metricas": {
+                "cross_validation": {
+                    "accuracy": 0.6718133401062832,
+                    "balanced_accuracy": 0.671752358490566,
+                    "macro_precision": 0.7407912544912454,
+                    "micro_precision": 0.6718133401062832,
+                    "macro_recall": 0.671752358490566,
+                    "micro_recall": 0.6718133401062832,
+                    "macro_f1": 0.657663125954765,
+                    "micro_f1": 0.6718133401062832,
+                    "macro_roc_auc": 0.9372828890948567,
+                    "micro_roc_auc": 0.9722056701269537
+                },
+                "test": {
+                    "accuracy": 0.671,
+                    "balanced_accuracy": 0.671,
+                    "macro_precision": 0.7630022160308331,
+                    "micro_precision": 0.671,
+                    "macro_recall": 0.671,
+                    "micro_recall": 0.671,
+                    "macro_f1": 0.6612156533089173,
+                    "micro_f1": 0.671,
+                    "macro_roc_auc": 0.9385375,
+                    "micro_roc_auc": 0.9720649703947367
+                }
+            }
+        },
+        {
+            "modelo": "Exp_9_prep_lowercase_freq_10_features_3000_k_5_Dense_512_256_128_Dropout_epochs_5",
+            "parametros": {
+                "preprocessing": [
+                    "lowercase"
+                ],
+                "minimum_frequency": 10,
+                "features_requested": 3000,
+                "features_obtained": 3000,
+                "kfold": 5,
+                "architecture": "Dense_512_256_128_Dropout",
+                "layers": [
+                    [
+                        "dense",
+                        512,
+                        "relu"
+                    ],
+                    [
+                        "dropout",
+                        0.3
+                    ],
+                    [
+                        "dense",
+                        256,
+                        "relu"
+                    ],
+                    [
+                        "dropout",
+                        0.3
+                    ],
+                    [
+                        "dense",
+                        128,
+                        "relu"
+                    ],
+                    [
+                        "dropout",
+                        0.2
+                    ]
+                ],
+                "epochs": 5,
+                "batch_size": 200,
+                "optimizer": "adam",
+                "loss": "sparse_categorical_crossentropy",
+                "elapsed_seconds": 18.93
+            },
+            "metricas": {
+                "cross_validation": {
+                    "accuracy": 0.6704380275085965,
+                    "balanced_accuracy": 0.6703753930817611,
+                    "macro_precision": 0.7468417441158799,
+                    "micro_precision": 0.6704380275085965,
+                    "macro_recall": 0.6703753930817611,
+                    "micro_recall": 0.6704380275085965,
+                    "macro_f1": 0.653892106592099,
+                    "micro_f1": 0.6704380275085965,
+                    "macro_roc_auc": 0.9368567361673085,
+                    "micro_roc_auc": 0.971898342885068
+                },
+                "test": {
+                    "accuracy": 0.67025,
+                    "balanced_accuracy": 0.6702499999999999,
+                    "macro_precision": 0.7337291893704923,
+                    "micro_precision": 0.67025,
+                    "macro_recall": 0.6702499999999999,
+                    "micro_recall": 0.67025,
+                    "macro_f1": 0.6555983212772523,
+                    "micro_f1": 0.67025,
+                    "macro_roc_auc": 0.9377805592105262,
+                    "micro_roc_auc": 0.971167833881579
+                }
+            }
+        },
+        {
+            "modelo": "Exp_10_prep_lowercase_freq_10_features_3000_k_5_Dense_512_256_128_Dropout_epochs_7",
+            "parametros": {
+                "preprocessing": [
+                    "lowercase"
+                ],
+                "minimum_frequency": 10,
+                "features_requested": 3000,
+                "features_obtained": 3000,
+                "kfold": 5,
+                "architecture": "Dense_512_256_128_Dropout",
+                "layers": [
+                    [
+                        "dense",
+                        512,
+                        "relu"
+                    ],
+                    [
+                        "dropout",
+                        0.3
+                    ],
+                    [
+                        "dense",
+                        256,
+                        "relu"
+                    ],
+                    [
+                        "dropout",
+                        0.3
+                    ],
+                    [
+                        "dense",
+                        128,
+                        "relu"
+                    ],
+                    [
+                        "dropout",
+                        0.2
+                    ]
+                ],
+                "epochs": 7,
+                "batch_size": 200,
+                "optimizer": "adam",
+                "loss": "sparse_categorical_crossentropy",
+                "elapsed_seconds": 23.98
+            },
+            "metricas": {
+                "cross_validation": {
+                    "accuracy": 0.6716257814942169,
+                    "balanced_accuracy": 0.671565644654088,
+                    "macro_precision": 0.7492889790486371,
+                    "micro_precision": 0.6716257814942169,
+                    "macro_recall": 0.671565644654088,
+                    "micro_recall": 0.6716257814942169,
+                    "macro_f1": 0.6576183780815275,
+                    "micro_f1": 0.6716257814942169,
+                    "macro_roc_auc": 0.9371601467515749,
+                    "micro_roc_auc": 0.9720407573899111
+                },
+                "test": {
+                    "accuracy": 0.67075,
+                    "balanced_accuracy": 0.6707500000000001,
+                    "macro_precision": 0.71675070060543,
+                    "micro_precision": 0.67075,
+                    "macro_recall": 0.6707500000000001,
+                    "micro_recall": 0.67075,
+                    "macro_f1": 0.6568800631842753,
+                    "micro_f1": 0.67075,
+                    "macro_roc_auc": 0.9374003618421053,
+                    "micro_roc_auc": 0.9707118684210527
+                }
+            }
+        },
+        {
+            "modelo": "Exp_11_prep_lowercase_freq_10_features_3000_k_5_Dense_BatchNorm_Dropout_epochs_5",
+            "parametros": {
+                "preprocessing": [
+                    "lowercase"
+                ],
+                "minimum_frequency": 10,
+                "features_requested": 3000,
+                "features_obtained": 3000,
+                "kfold": 5,
+                "architecture": "Dense_BatchNorm_Dropout",
+                "layers": [
+                    [
+                        "dense",
+                        256,
+                        "relu"
+                    ],
+                    [
+                        "batchnorm"
+                    ],
+                    [
+                        "dropout",
+                        0.3
+                    ],
+                    [
+                        "dense",
+                        128,
+                        "relu"
+                    ],
+                    [
+                        "batchnorm"
+                    ],
+                    [
+                        "dropout",
+                        0.2
+                    ],
+                    [
+                        "dense",
+                        64,
+                        "relu"
+                    ]
+                ],
+                "epochs": 5,
+                "batch_size": 128,
+                "optimizer": "adam",
+                "loss": "sparse_categorical_crossentropy",
+                "elapsed_seconds": 16.89
+            },
+            "metricas": {
+                "cross_validation": {
+                    "accuracy": 0.6603113082213191,
+                    "balanced_accuracy": 0.6601922169811321,
+                    "macro_precision": 0.7465621500575802,
+                    "micro_precision": 0.6603113082213191,
+                    "macro_recall": 0.6601922169811321,
+                    "micro_recall": 0.6603113082213191,
+                    "macro_f1": 0.6411893991664299,
+                    "micro_f1": 0.6603113082213191,
+                    "macro_roc_auc": 0.9367720301352609,
+                    "micro_roc_auc": 0.9700180346281296
+                },
+                "test": {
+                    "accuracy": 0.66675,
+                    "balanced_accuracy": 0.6667500000000001,
+                    "macro_precision": 0.7489947623732385,
+                    "micro_precision": 0.66675,
+                    "macro_recall": 0.6667500000000001,
+                    "micro_recall": 0.66675,
+                    "macro_f1": 0.6549473815953168,
+                    "micro_f1": 0.66675,
+                    "macro_roc_auc": 0.9379762499999998,
+                    "micro_roc_auc": 0.9708721266447369
+                }
+            }
+        },
+        {
+            "modelo": "Exp_12_prep_lowercase_freq_10_features_3000_k_5_Dense_BatchNorm_Dropout_epochs_7",
+            "parametros": {
+                "preprocessing": [
+                    "lowercase"
+                ],
+                "minimum_frequency": 10,
+                "features_requested": 3000,
+                "features_obtained": 3000,
+                "kfold": 5,
+                "architecture": "Dense_BatchNorm_Dropout",
+                "layers": [
+                    [
+                        "dense",
+                        256,
+                        "relu"
+                    ],
+                    [
+                        "batchnorm"
+                    ],
+                    [
+                        "dropout",
+                        0.3
+                    ],
+                    [
+                        "dense",
+                        128,
+                        "relu"
+                    ],
+                    [
+                        "batchnorm"
+                    ],
+                    [
+                        "dropout",
+                        0.2
+                    ],
+                    [
+                        "dense",
+                        64,
+                        "relu"
+                    ]
+                ],
+                "epochs": 7,
+                "batch_size": 128,
+                "optimizer": "adam",
+                "loss": "sparse_categorical_crossentropy",
+                "elapsed_seconds": 24.27
+            },
+            "metricas": {
+                "cross_validation": {
+                    "accuracy": 0.6635616403563613,
+                    "balanced_accuracy": 0.6634441823899371,
+                    "macro_precision": 0.7289073145268797,
+                    "micro_precision": 0.6635616403563613,
+                    "macro_recall": 0.6634441823899371,
+                    "micro_recall": 0.6635616403563613,
+                    "macro_f1": 0.6487381232657704,
+                    "micro_f1": 0.6635616403563613,
+                    "macro_roc_auc": 0.9363881954065812,
+                    "micro_roc_auc": 0.9705720340101976
+                },
+                "test": {
+                    "accuracy": 0.67025,
+                    "balanced_accuracy": 0.67025,
+                    "macro_precision": 0.7431790126124722,
+                    "micro_precision": 0.67025,
+                    "macro_recall": 0.67025,
+                    "micro_recall": 0.67025,
+                    "macro_f1": 0.6564697314395189,
+                    "micro_f1": 0.67025,
+                    "macro_roc_auc": 0.9386556578947369,
+                    "micro_roc_auc": 0.9718591480263157
+                }
+            }
+        },
+        {
+            "modelo": "Exp_13_prep_lowercase_freq_10_features_5000_k_3_Dense_128_64_Dropout_epochs_5",
+            "parametros": {
+                "preprocessing": [
+                    "lowercase"
+                ],
+                "minimum_frequency": 10,
+                "features_requested": 5000,
+                "features_obtained": 5000,
+                "kfold": 3,
+                "architecture": "Dense_128_64_Dropout",
+                "layers": [
+                    [
+                        "dense",
+                        128,
+                        "relu"
+                    ],
+                    [
+                        "dropout",
+                        0.2
+                    ],
+                    [
+                        "dense",
+                        64,
+                        "relu"
+                    ],
+                    [
+                        "dropout",
+                        0.2
+                    ]
+                ],
+                "epochs": 5,
+                "batch_size": 128,
+                "optimizer": "adam",
+                "loss": "sparse_categorical_crossentropy",
+                "elapsed_seconds": 9.76
+            },
+            "metricas": {
+                "cross_validation": {
+                    "accuracy": 0.8712260687523278,
+                    "balanced_accuracy": 0.8712556185531315,
+                    "macro_precision": 0.9047054165234707,
+                    "micro_precision": 0.8712260687523278,
+                    "macro_recall": 0.8712556185531315,
+                    "micro_recall": 0.8712260687523278,
+                    "macro_f1": 0.8769229445577196,
+                    "micro_f1": 0.8712260687523278,
+                    "macro_roc_auc": 0.9885443942761111,
+                    "micro_roc_auc": 0.9944030626059558
+                },
+                "test": {
+                    "accuracy": 0.87925,
+                    "balanced_accuracy": 0.8792500000000001,
+                    "macro_precision": 0.8981072726363554,
+                    "micro_precision": 0.87925,
+                    "macro_recall": 0.8792500000000001,
+                    "micro_recall": 0.87925,
+                    "macro_f1": 0.8814751088627473,
+                    "micro_f1": 0.87925,
+                    "macro_roc_auc": 0.9893171381578949,
+                    "micro_roc_auc": 0.9944018700657895
+                }
+            }
+        },
+        {
+            "modelo": "Exp_14_prep_lowercase_freq_10_features_5000_k_3_Dense_128_64_Dropout_epochs_7",
+            "parametros": {
+                "preprocessing": [
+                    "lowercase"
+                ],
+                "minimum_frequency": 10,
+                "features_requested": 5000,
+                "features_obtained": 5000,
+                "kfold": 3,
+                "architecture": "Dense_128_64_Dropout",
+                "layers": [
+                    [
+                        "dense",
+                        128,
+                        "relu"
+                    ],
+                    [
+                        "dropout",
+                        0.2
+                    ],
+                    [
+                        "dense",
+                        64,
+                        "relu"
+                    ],
+                    [
+                        "dropout",
+                        0.2
+                    ]
+                ],
+                "epochs": 7,
+                "batch_size": 128,
+                "optimizer": "adam",
+                "loss": "sparse_categorical_crossentropy",
+                "elapsed_seconds": 11.05
+            },
+            "metricas": {
+                "cross_validation": {
+                    "accuracy": 0.8729758850738373,
+                    "balanced_accuracy": 0.8729956897047934,
+                    "macro_precision": 0.9060473725194521,
+                    "micro_precision": 0.8729758850738373,
+                    "macro_recall": 0.8729956897047934,
+                    "micro_recall": 0.8729758850738373,
+                    "macro_f1": 0.8772691038743264,
+                    "micro_f1": 0.8729758850738373,
+                    "macro_roc_auc": 0.988555429985067,
+                    "micro_roc_auc": 0.9942746471882028
+                },
+                "test": {
+                    "accuracy": 0.88,
+                    "balanced_accuracy": 0.8800000000000001,
+                    "macro_precision": 0.9032318374437656,
+                    "micro_precision": 0.88,
+                    "macro_recall": 0.8800000000000001,
+                    "micro_recall": 0.88,
+                    "macro_f1": 0.8807331677051538,
+                    "micro_f1": 0.88,
+                    "macro_roc_auc": 0.9896926644736842,
+                    "micro_roc_auc": 0.9945859703947368
+                }
+            }
+        },
+        {
+            "modelo": "Exp_15_prep_lowercase_freq_10_features_5000_k_3_Dense_512_256_128_Dropout_epochs_5",
+            "parametros": {
+                "preprocessing": [
+                    "lowercase"
+                ],
+                "minimum_frequency": 10,
+                "features_requested": 5000,
+                "features_obtained": 5000,
+                "kfold": 3,
+                "architecture": "Dense_512_256_128_Dropout",
+                "layers": [
+                    [
+                        "dense",
+                        512,
+                        "relu"
+                    ],
+                    [
+                        "dropout",
+                        0.3
+                    ],
+                    [
+                        "dense",
+                        256,
+                        "relu"
+                    ],
+                    [
+                        "dropout",
+                        0.3
+                    ],
+                    [
+                        "dense",
+                        128,
+                        "relu"
+                    ],
+                    [
+                        "dropout",
+                        0.2
+                    ]
+                ],
+                "epochs": 5,
+                "batch_size": 200,
+                "optimizer": "adam",
+                "loss": "sparse_categorical_crossentropy",
+                "elapsed_seconds": 18.36
+            },
+            "metricas": {
+                "cross_validation": {
+                    "accuracy": 0.8710383694742362,
+                    "balanced_accuracy": 0.8710627188067689,
+                    "macro_precision": 0.8988894248958333,
+                    "micro_precision": 0.8710383694742362,
+                    "macro_recall": 0.8710627188067689,
+                    "micro_recall": 0.8710383694742362,
+                    "macro_f1": 0.8726388699174029,
+                    "micro_f1": 0.8710383694742362,
+                    "macro_roc_auc": 0.9880398937518263,
+                    "micro_roc_auc": 0.993486084706313
+                },
+                "test": {
+                    "accuracy": 0.877,
+                    "balanced_accuracy": 0.877,
+                    "macro_precision": 0.8964036087433096,
+                    "micro_precision": 0.877,
+                    "macro_recall": 0.877,
+                    "micro_recall": 0.877,
+                    "macro_f1": 0.879361820901074,
+                    "micro_f1": 0.877,
+                    "macro_roc_auc": 0.9888948355263159,
+                    "micro_roc_auc": 0.9937628125
+                }
+            }
+        },
+        {
+            "modelo": "Exp_16_prep_lowercase_freq_10_features_5000_k_3_Dense_512_256_128_Dropout_epochs_7",
+            "parametros": {
+                "preprocessing": [
+                    "lowercase"
+                ],
+                "minimum_frequency": 10,
+                "features_requested": 5000,
+                "features_obtained": 5000,
+                "kfold": 3,
+                "architecture": "Dense_512_256_128_Dropout",
+                "layers": [
+                    [
+                        "dense",
+                        512,
+                        "relu"
+                    ],
+                    [
+                        "dropout",
+                        0.3
+                    ],
+                    [
+                        "dense",
+                        256,
+                        "relu"
+                    ],
+                    [
+                        "dropout",
+                        0.3
+                    ],
+                    [
+                        "dense",
+                        128,
+                        "relu"
+                    ],
+                    [
+                        "dropout",
+                        0.2
+                    ]
+                ],
+                "epochs": 7,
+                "batch_size": 200,
+                "optimizer": "adam",
+                "loss": "sparse_categorical_crossentropy",
+                "elapsed_seconds": 24.04
+            },
+            "metricas": {
+                "cross_validation": {
+                    "accuracy": 0.8766016157142604,
+                    "balanced_accuracy": 0.8766210939333351,
+                    "macro_precision": 0.8971300507272609,
+                    "micro_precision": 0.8766016157142604,
+                    "macro_recall": 0.8766210939333351,
+                    "micro_recall": 0.8766016157142604,
+                    "macro_f1": 0.877314336293945,
+                    "micro_f1": 0.8766016157142604,
+                    "macro_roc_auc": 0.9883356502684982,
+                    "micro_roc_auc": 0.9939603085636457
+                },
+                "test": {
+                    "accuracy": 0.87925,
+                    "balanced_accuracy": 0.8792499999999999,
+                    "macro_precision": 0.8940935796829264,
+                    "micro_precision": 0.87925,
+                    "macro_recall": 0.8792499999999999,
+                    "micro_recall": 0.87925,
+                    "macro_f1": 0.8788480223627758,
+                    "micro_f1": 0.87925,
+                    "macro_roc_auc": 0.9894295065789475,
+                    "micro_roc_auc": 0.9942952055921053
+                }
+            }
+        },
+        {
+            "modelo": "Exp_17_prep_lowercase_freq_10_features_5000_k_3_Dense_BatchNorm_Dropout_epochs_5",
+            "parametros": {
+                "preprocessing": [
+                    "lowercase"
+                ],
+                "minimum_frequency": 10,
+                "features_requested": 5000,
+                "features_obtained": 5000,
+                "kfold": 3,
+                "architecture": "Dense_BatchNorm_Dropout",
+                "layers": [
+                    [
+                        "dense",
+                        256,
+                        "relu"
+                    ],
+                    [
+                        "batchnorm"
+                    ],
+                    [
+                        "dropout",
+                        0.3
+                    ],
+                    [
+                        "dense",
+                        128,
+                        "relu"
+                    ],
+                    [
+                        "batchnorm"
+                    ],
+                    [
+                        "dropout",
+                        0.2
+                    ],
+                    [
+                        "dense",
+                        64,
+                        "relu"
+                    ]
+                ],
+                "epochs": 5,
+                "batch_size": 128,
+                "optimizer": "adam",
+                "loss": "sparse_categorical_crossentropy",
+                "elapsed_seconds": 15.89
+            },
+            "metricas": {
+                "cross_validation": {
+                    "accuracy": 0.8588483962355674,
+                    "balanced_accuracy": 0.8588697832844424,
+                    "macro_precision": 0.8960098568929503,
+                    "micro_precision": 0.8588483962355674,
+                    "macro_recall": 0.8588697832844424,
+                    "micro_recall": 0.8588483962355674,
+                    "macro_f1": 0.8595335327095137,
+                    "micro_f1": 0.8588483962355674,
+                    "macro_roc_auc": 0.9882763611975237,
+                    "micro_roc_auc": 0.9929904163457074
+                },
+                "test": {
+                    "accuracy": 0.869,
+                    "balanced_accuracy": 0.869,
+                    "macro_precision": 0.9003777529967445,
+                    "micro_precision": 0.869,
+                    "macro_recall": 0.869,
+                    "micro_recall": 0.869,
+                    "macro_f1": 0.8719927967131849,
+                    "micro_f1": 0.869,
+                    "macro_roc_auc": 0.9895435526315788,
+                    "micro_roc_auc": 0.9937911184210526
+                }
+            }
+        },
+        {
+            "modelo": "Exp_18_prep_lowercase_freq_10_features_5000_k_3_Dense_BatchNorm_Dropout_epochs_7",
+            "parametros": {
+                "preprocessing": [
+                    "lowercase"
+                ],
+                "minimum_frequency": 10,
+                "features_requested": 5000,
+                "features_obtained": 5000,
+                "kfold": 3,
+                "architecture": "Dense_BatchNorm_Dropout",
+                "layers": [
+                    [
+                        "dense",
+                        256,
+                        "relu"
+                    ],
+                    [
+                        "batchnorm"
+                    ],
+                    [
+                        "dropout",
+                        0.3
+                    ],
+                    [
+                        "dense",
+                        128,
+                        "relu"
+                    ],
+                    [
+                        "batchnorm"
+                    ],
+                    [
+                        "dropout",
+                        0.2
+                    ],
+                    [
+                        "dense",
+                        64,
+                        "relu"
+                    ]
+                ],
+                "epochs": 7,
+                "batch_size": 128,
+                "optimizer": "adam",
+                "loss": "sparse_categorical_crossentropy",
+                "elapsed_seconds": 19.33
+            },
+            "metricas": {
+                "cross_validation": {
+                    "accuracy": 0.857535462526798,
+                    "balanced_accuracy": 0.8575938840104289,
+                    "macro_precision": 0.9003010505154262,
+                    "micro_precision": 0.857535462526798,
+                    "macro_recall": 0.8575938840104289,
+                    "micro_recall": 0.857535462526798,
+                    "macro_f1": 0.8567290666238855,
+                    "micro_f1": 0.857535462526798,
+                    "macro_roc_auc": 0.9883220624325254,
+                    "micro_roc_auc": 0.9937691127136653
+                },
+                "test": {
+                    "accuracy": 0.8765,
+                    "balanced_accuracy": 0.8765000000000001,
+                    "macro_precision": 0.8923966649232355,
+                    "micro_precision": 0.8765,
+                    "macro_recall": 0.8765000000000001,
+                    "micro_recall": 0.8765,
+                    "macro_f1": 0.878802699704152,
+                    "micro_f1": 0.8765,
+                    "macro_roc_auc": 0.9894498026315789,
+                    "micro_roc_auc": 0.9946447697368421
+                }
+            }
+        },
+        {
+            "modelo": "Exp_19_prep_lowercase_freq_10_features_5000_k_5_Dense_128_64_Dropout_epochs_5",
+            "parametros": {
+                "preprocessing": [
+                    "lowercase"
+                ],
+                "minimum_frequency": 10,
+                "features_requested": 5000,
+                "features_obtained": 5000,
+                "kfold": 5,
+                "architecture": "Dense_128_64_Dropout",
+                "layers": [
+                    [
+                        "dense",
+                        128,
+                        "relu"
+                    ],
+                    [
+                        "dropout",
+                        0.2
+                    ],
+                    [
+                        "dense",
+                        64,
+                        "relu"
+                    ],
+                    [
+                        "dropout",
+                        0.2
+                    ]
+                ],
+                "epochs": 5,
+                "batch_size": 128,
+                "optimizer": "adam",
+                "loss": "sparse_categorical_crossentropy",
+                "elapsed_seconds": 13.33
+            },
+            "metricas": {
+                "cross_validation": {
+                    "accuracy": 0.8744762035010941,
+                    "balanced_accuracy": 0.8744992138364779,
+                    "macro_precision": 0.9069876465556181,
+                    "micro_precision": 0.8744762035010941,
+                    "macro_recall": 0.8744992138364779,
+                    "micro_recall": 0.8744762035010941,
+                    "macro_f1": 0.8776977522494149,
+                    "micro_f1": 0.8744762035010941,
+                    "macro_roc_auc": 0.989149833209963,
+                    "micro_roc_auc": 0.9946546296445309
+                },
+                "test": {
+                    "accuracy": 0.88175,
+                    "balanced_accuracy": 0.88175,
+                    "macro_precision": 0.9051749808432122,
+                    "micro_precision": 0.88175,
+                    "macro_recall": 0.88175,
+                    "micro_recall": 0.88175,
+                    "macro_f1": 0.8851488660927046,
+                    "micro_f1": 0.88175,
+                    "macro_roc_auc": 0.9893799342105265,
+                    "micro_roc_auc": 0.9944731036184211
+                }
+            }
+        },
+        {
+            "modelo": "Exp_20_prep_lowercase_freq_10_features_5000_k_5_Dense_128_64_Dropout_epochs_7",
+            "parametros": {
+                "preprocessing": [
+                    "lowercase"
+                ],
+                "minimum_frequency": 10,
+                "features_requested": 5000,
+                "features_obtained": 5000,
+                "kfold": 5,
+                "architecture": "Dense_128_64_Dropout",
+                "layers": [
+                    [
+                        "dense",
+                        128,
+                        "relu"
+                    ],
+                    [
+                        "dropout",
+                        0.2
+                    ],
+                    [
+                        "dense",
+                        64,
+                        "relu"
+                    ],
+                    [
+                        "dropout",
+                        0.2
+                    ]
+                ],
+                "epochs": 7,
+                "batch_size": 128,
+                "optimizer": "adam",
+                "loss": "sparse_categorical_crossentropy",
+                "elapsed_seconds": 19.42
+            },
+            "metricas": {
+                "cross_validation": {
+                    "accuracy": 0.8744760472022508,
+                    "balanced_accuracy": 0.8744992138364781,
+                    "macro_precision": 0.901365696008423,
+                    "micro_precision": 0.8744760472022508,
+                    "macro_recall": 0.8744992138364781,
+                    "micro_recall": 0.8744760472022508,
+                    "macro_f1": 0.8780594131559798,
+                    "micro_f1": 0.8744760472022508,
+                    "macro_roc_auc": 0.9889413302531546,
+                    "micro_roc_auc": 0.9945959837446979
+                },
+                "test": {
+                    "accuracy": 0.88025,
+                    "balanced_accuracy": 0.8802499999999999,
+                    "macro_precision": 0.9001856095207327,
+                    "micro_precision": 0.88025,
+                    "macro_recall": 0.8802499999999999,
+                    "micro_recall": 0.88025,
+                    "macro_f1": 0.883344776923488,
+                    "micro_f1": 0.88025,
+                    "macro_roc_auc": 0.9891744407894738,
+                    "micro_roc_auc": 0.9942565921052632
+                }
+            }
+        },
+        {
+            "modelo": "Exp_1_Baseline_Dense",
+            "parametros": {
+                "preprocessing": [
+                    "lowercase"
+                ],
+                "minimum_frequency": 10,
+                "features_requested": 3000,
+                "features_obtained": 3000,
+                "kfold": 3,
+                "architecture": "Dense_128_64_Dropout",
+                "epochs": 5,
+                "batch_size": 128,
+                "optimizer": "adam",
+                "loss": "sparse_categorical_crossentropy",
+                "sequence_max_length": null,
+                "embedding_dimension": null,
+                "elapsed_seconds": 9.85
+            },
+            "metricas": {
+                "cross_validation": {
+                    "accuracy": 0.6673750403661294,
+                    "balanced_accuracy": 0.6673619415296775,
+                    "macro_precision": 0.7407616387799968,
+                    "micro_precision": 0.6673750403661294,
+                    "macro_recall": 0.6673619415296775,
+                    "micro_recall": 0.6673750403661294,
+                    "macro_f1": 0.6525226802253294,
+                    "micro_f1": 0.6673750403661294,
+                    "macro_roc_auc": 0.9364079283283973,
+                    "micro_roc_auc": 0.9711709161758941
+                },
+                "test": {
+                    "accuracy": 0.67225,
+                    "balanced_accuracy": 0.67225,
+                    "macro_precision": 0.7648811149265299,
+                    "micro_precision": 0.67225,
+                    "macro_recall": 0.67225,
+                    "micro_recall": 0.67225,
+                    "macro_f1": 0.6575293288994156,
+                    "micro_f1": 0.67225,
+                    "macro_roc_auc": 0.9373676315789472,
+                    "micro_roc_auc": 0.9712076661184211
+                }
+            }
+        },
+        {
+            "modelo": "Exp_2_Clean_Dense",
+            "parametros": {
+                "preprocessing": [
+                    "lowercase",
+                    "clean"
+                ],
+                "minimum_frequency": 10,
+                "features_requested": 3000,
+                "features_obtained": 3000,
+                "kfold": 3,
+                "architecture": "Dense_128_64_Dropout",
+                "epochs": 5,
+                "batch_size": 128,
+                "optimizer": "adam",
+                "loss": "sparse_categorical_crossentropy",
+                "sequence_max_length": null,
+                "embedding_dimension": null,
+                "elapsed_seconds": 41.32
+            },
+            "metricas": {
+                "cross_validation": {
+                    "accuracy": 0.685003228587008,
+                    "balanced_accuracy": 0.6850579163263966,
+                    "macro_precision": 0.772893292895812,
+                    "micro_precision": 0.685003228587008,
+                    "macro_recall": 0.6850579163263966,
+                    "micro_recall": 0.685003228587008,
+                    "macro_f1": 0.6670613444755519,
+                    "micro_f1": 0.685003228587008,
+                    "macro_roc_auc": 0.9407407419909538,
+                    "micro_roc_auc": 0.9770053258944061
+                },
+                "test": {
+                    "accuracy": 0.687,
+                    "balanced_accuracy": 0.687,
+                    "macro_precision": 0.7687438966093195,
+                    "micro_precision": 0.687,
+                    "macro_recall": 0.687,
+                    "micro_recall": 0.687,
+                    "macro_f1": 0.6687425192809421,
+                    "micro_f1": 0.687,
+                    "macro_roc_auc": 0.9413880921052631,
+                    "micro_roc_auc": 0.9765741578947368
+                }
+            }
+        },
+        {
+            "modelo": "Exp_3_Lemmatized_Dense",
+            "parametros": {
+                "preprocessing": [
+                    "lowercase",
+                    "clean",
+                    "remove_punctuation",
+                    "lemmatize"
+                ],
+                "minimum_frequency": 10,
+                "features_requested": 3000,
+                "features_obtained": 3000,
+                "kfold": 3,
+                "architecture": "Dense_128_64_Dropout",
+                "epochs": 5,
+                "batch_size": 128,
+                "optimizer": "adam",
+                "loss": "sparse_categorical_crossentropy",
+                "sequence_max_length": null,
+                "embedding_dimension": null,
+                "elapsed_seconds": 55.87
+            },
+            "metricas": {
+                "cross_validation": {
+                    "accuracy": 0.6825030019927634,
+                    "balanced_accuracy": 0.6825485716269332,
+                    "macro_precision": 0.7985787309788419,
+                    "micro_precision": 0.6825030019927634,
+                    "macro_recall": 0.6825485716269332,
+                    "micro_recall": 0.6825030019927634,
+                    "macro_f1": 0.679531866173435,
+                    "micro_f1": 0.6825030019927634,
+                    "macro_roc_auc": 0.9390428211269096,
+                    "micro_roc_auc": 0.9745313024200503
+                },
+                "test": {
+                    "accuracy": 0.6805,
+                    "balanced_accuracy": 0.6805000000000001,
+                    "macro_precision": 0.7976870124461449,
+                    "micro_precision": 0.6805,
+                    "macro_recall": 0.6805000000000001,
+                    "micro_recall": 0.6805,
+                    "macro_f1": 0.6818580366226165,
+                    "micro_f1": 0.6805,
+                    "macro_roc_auc": 0.9394944736842106,
+                    "micro_roc_auc": 0.973951384868421
+                }
+            }
+        },
+        {
+            "modelo": "Exp_4_Frequency25_Dense",
+            "parametros": {
+                "preprocessing": [
+                    "lowercase"
+                ],
+                "minimum_frequency": 25,
+                "features_requested": 3000,
+                "features_obtained": 3000,
+                "kfold": 3,
+                "architecture": "Dense_128_64_Dropout",
+                "epochs": 5,
+                "batch_size": 128,
+                "optimizer": "adam",
+                "loss": "sparse_categorical_crossentropy",
+                "sequence_max_length": null,
+                "embedding_dimension": null,
+                "elapsed_seconds": 9.74
+            },
+            "metricas": {
+                "cross_validation": {
+                    "accuracy": 0.9232980240184742,
+                    "balanced_accuracy": 0.9233092093529706,
+                    "macro_precision": 0.9259556653249362,
+                    "micro_precision": 0.9232980240184742,
+                    "macro_recall": 0.9233092093529706,
+                    "micro_recall": 0.9232980240184742,
+                    "macro_f1": 0.924204643917221,
+                    "micro_f1": 0.9232980240184742,
+                    "macro_roc_auc": 0.9945494478489514,
+                    "micro_roc_auc": 0.9955102908970593
+                },
+                "test": {
+                    "accuracy": 0.9255,
+                    "balanced_accuracy": 0.9255000000000001,
+                    "macro_precision": 0.9284034819854826,
+                    "micro_precision": 0.9255,
+                    "macro_recall": 0.9255000000000001,
+                    "micro_recall": 0.9255,
+                    "macro_f1": 0.9263870740205518,
+                    "micro_f1": 0.9255,
+                    "macro_roc_auc": 0.9955419078947367,
+                    "micro_roc_auc": 0.9965473799342105
+                }
+            }
+        },
+        {
+            "modelo": "Exp_5_Dense_512",
+            "parametros": {
+                "preprocessing": [
+                    "lowercase"
+                ],
+                "minimum_frequency": 10,
+                "features_requested": 3000,
+                "features_obtained": 3000,
+                "kfold": 3,
+                "architecture": "Dense_512_256_128_Dropout",
+                "epochs": 5,
+                "batch_size": 128,
+                "optimizer": "adam",
+                "loss": "sparse_categorical_crossentropy",
+                "sequence_max_length": null,
+                "embedding_dimension": null,
+                "elapsed_seconds": 21.8
+            },
+            "metricas": {
+                "cross_validation": {
+                    "accuracy": 0.6681251810233638,
+                    "balanced_accuracy": 0.6680603857534444,
+                    "macro_precision": 0.729135353148784,
+                    "micro_precision": 0.6681251810233638,
+                    "macro_recall": 0.6680603857534444,
+                    "micro_recall": 0.6681251810233638,
+                    "macro_f1": 0.6525081481911627,
+                    "micro_f1": 0.6681251810233638,
+                    "macro_roc_auc": 0.936081526659346,
+                    "micro_roc_auc": 0.9710639472176955
+                },
+                "test": {
+                    "accuracy": 0.67325,
+                    "balanced_accuracy": 0.67325,
+                    "macro_precision": 0.7695289111192893,
+                    "micro_precision": 0.67325,
+                    "macro_recall": 0.67325,
+                    "micro_recall": 0.67325,
+                    "macro_f1": 0.6617267653188466,
+                    "micro_f1": 0.67325,
+                    "macro_roc_auc": 0.9383094736842106,
+                    "micro_roc_auc": 0.9718041726973685
+                }
+            }
+        },
+        {
+            "modelo": "Exp_6_Conv1D",
+            "parametros": {
+                "preprocessing": [
+                    "lowercase"
+                ],
+                "minimum_frequency": 10,
+                "features_requested": 3000,
+                "features_obtained": 29397,
+                "kfold": 3,
+                "architecture": "Conv1D_128",
+                "epochs": 5,
+                "batch_size": 128,
+                "optimizer": "adam",
+                "loss": "sparse_categorical_crossentropy",
+                "sequence_max_length": 200,
+                "embedding_dimension": 64,
+                "elapsed_seconds": 89.87
+            },
+            "metricas": {
+                "cross_validation": {
+                    "accuracy": 0.9285494306259857,
+                    "balanced_accuracy": 0.9285657965137563,
+                    "macro_precision": 0.9343871967069545,
+                    "micro_precision": 0.9285494306259857,
+                    "macro_recall": 0.9285657965137563,
+                    "micro_recall": 0.9285494306259857,
+                    "macro_f1": 0.9298835844476309,
+                    "micro_f1": 0.9285494306259857,
+                    "macro_roc_auc": 0.9975946120728283,
+                    "micro_roc_auc": 0.9982329401744532
+                },
+                "test": {
+                    "accuracy": 0.93475,
+                    "balanced_accuracy": 0.9347500000000002,
+                    "macro_precision": 0.9368099437641602,
+                    "micro_precision": 0.93475,
+                    "macro_recall": 0.9347500000000002,
+                    "micro_recall": 0.93475,
+                    "macro_f1": 0.9352351895980204,
+                    "micro_f1": 0.93475,
+                    "macro_roc_auc": 0.9982217763157897,
+                    "micro_roc_auc": 0.9989338750000001
+                }
+            }
+        },
+        {
+            "modelo": "Exp_7_Conv1D_Clean",
+            "parametros": {
+                "preprocessing": [
+                    "lowercase",
+                    "clean"
+                ],
+                "minimum_frequency": 10,
+                "features_requested": 3000,
+                "features_obtained": 27347,
+                "kfold": 3,
+                "architecture": "Conv1D_128",
+                "epochs": 5,
+                "batch_size": 128,
+                "optimizer": "adam",
+                "loss": "sparse_categorical_crossentropy",
+                "sequence_max_length": 200,
+                "embedding_dimension": 64,
+                "elapsed_seconds": 158.3
+            },
+            "metricas": {
+                "cross_validation": {
+                    "accuracy": 0.9661183226614828,
+                    "balanced_accuracy": 0.9661323234239227,
+                    "macro_precision": 0.9689620491547192,
+                    "micro_precision": 0.9661183226614828,
+                    "macro_recall": 0.9661323234239227,
+                    "micro_recall": 0.9661183226614828,
+                    "macro_f1": 0.9657369638492254,
+                    "micro_f1": 0.9661183226614828,
+                    "macro_roc_auc": 0.9994090950025575,
+                    "micro_roc_auc": 0.9998477555998558
+                },
+                "test": {
+                    "accuracy": 0.9615,
+                    "balanced_accuracy": 0.9615,
+                    "macro_precision": 0.9625049621506218,
+                    "micro_precision": 0.9615,
+                    "macro_recall": 0.9615,
+                    "micro_recall": 0.9615,
+                    "macro_f1": 0.9617231902288387,
+                    "micro_f1": 0.9615,
+                    "macro_roc_auc": 0.9993324342105264,
+                    "micro_roc_auc": 0.9997915592105263
+                }
+            }
+        },
+        {
+            "modelo": "Exp_8_BiLSTM",
+            "parametros": {
+                "preprocessing": [
+                    "lowercase"
+                ],
+                "minimum_frequency": 10,
+                "features_requested": 3000,
+                "features_obtained": 29397,
+                "kfold": 3,
+                "architecture": "BiLSTM_64",
+                "epochs": 5,
+                "batch_size": 128,
+                "optimizer": "adam",
+                "loss": "sparse_categorical_crossentropy",
+                "sequence_max_length": 200,
+                "embedding_dimension": 64,
+                "elapsed_seconds": 336.32
+            },
+            "metricas": {
+                "cross_validation": {
+                    "accuracy": 0.9071704922292826,
+                    "balanced_accuracy": 0.907182749113615,
+                    "macro_precision": 0.9103787587542899,
+                    "micro_precision": 0.9071704922292826,
+                    "macro_recall": 0.907182749113615,
+                    "micro_recall": 0.9071704922292826,
+                    "macro_f1": 0.9077808161487596,
+                    "micro_f1": 0.9071704922292826,
+                    "macro_roc_auc": 0.9931255688730186,
+                    "micro_roc_auc": 0.993804938786471
+                },
+                "test": {
+                    "accuracy": 0.9225,
+                    "balanced_accuracy": 0.9225,
+                    "macro_precision": 0.9276843129766711,
+                    "micro_precision": 0.9225,
+                    "macro_recall": 0.9225,
+                    "micro_recall": 0.9225,
+                    "macro_f1": 0.9236891378579608,
+                    "micro_f1": 0.9225,
+                    "macro_roc_auc": 0.9950756578947368,
+                    "micro_roc_auc": 0.9957547220394739
+                }
+            }
+        },
+        {
+            "modelo": "Exp_9_BiLSTM_Dropout",
+            "parametros": {
+                "preprocessing": [
+                    "lowercase"
+                ],
+                "minimum_frequency": 10,
+                "features_requested": 3000,
+                "features_obtained": 29397,
+                "kfold": 3,
+                "architecture": "BiLSTM_128_Dropout",
+                "epochs": 5,
+                "batch_size": 128,
+                "optimizer": "adam",
+                "loss": "sparse_categorical_crossentropy",
+                "sequence_max_length": 200,
+                "embedding_dimension": 64,
+                "elapsed_seconds": 653.45
+            },
+            "metricas": {
+                "cross_validation": {
+                    "accuracy": 0.8836644047567302,
+                    "balanced_accuracy": 0.8836886205337384,
+                    "macro_precision": 0.8930394187470103,
+                    "micro_precision": 0.8836644047567302,
+                    "macro_recall": 0.8836886205337384,
+                    "micro_recall": 0.8836644047567302,
+                    "macro_f1": 0.8846197699879053,
+                    "micro_f1": 0.8836644047567302,
+                    "macro_roc_auc": 0.9928318551340256,
+                    "micro_roc_auc": 0.993583773128872
+                },
+                "test": {
+                    "accuracy": 0.919,
+                    "balanced_accuracy": 0.9190000000000002,
+                    "macro_precision": 0.9245244324131769,
+                    "micro_precision": 0.919,
+                    "macro_recall": 0.9190000000000002,
+                    "micro_recall": 0.919,
+                    "macro_f1": 0.9196464103456018,
+                    "micro_f1": 0.919,
+                    "macro_roc_auc": 0.9961152631578948,
+                    "micro_roc_auc": 0.996763134868421
+                }
+            }
+        },
+        {
+            "modelo": "Exp_10_BiGRU",
+            "parametros": {
+                "preprocessing": [
+                    "lowercase"
+                ],
+                "minimum_frequency": 10,
+                "features_requested": 3000,
+                "features_obtained": 29397,
+                "kfold": 3,
+                "architecture": "BiGRU_64",
+                "epochs": 5,
+                "batch_size": 128,
+                "optimizer": "adam",
+                "loss": "sparse_categorical_crossentropy",
+                "sequence_max_length": 200,
+                "embedding_dimension": 64,
+                "elapsed_seconds": 299.3
+            },
+            "metricas": {
+                "cross_validation": {
+                    "accuracy": 0.9152340822876823,
+                    "balanced_accuracy": 0.9152443356642613,
+                    "macro_precision": 0.9199570457132257,
+                    "micro_precision": 0.9152340822876823,
+                    "macro_recall": 0.9152443356642613,
+                    "micro_recall": 0.9152340822876823,
+                    "macro_f1": 0.9160989445137465,
+                    "micro_f1": 0.9152340822876823,
+                    "macro_roc_auc": 0.9950167411348437,
+                    "micro_roc_auc": 0.9957601154153024
+                },
+                "test": {
+                    "accuracy": 0.9215,
+                    "balanced_accuracy": 0.9215000000000002,
+                    "macro_precision": 0.924674054784847,
+                    "micro_precision": 0.9215,
+                    "macro_recall": 0.9215000000000002,
+                    "micro_recall": 0.9215,
+                    "macro_f1": 0.9219306891230117,
+                    "micro_f1": 0.9215,
+                    "macro_roc_auc": 0.9964223684210527,
+                    "micro_roc_auc": 0.9972203355263158
+                }
+            }
+        },
+        {
+            "modelo": "Exp_11_Conv1D_BiLSTM",
+            "parametros": {
+                "preprocessing": [
+                    "lowercase"
+                ],
+                "minimum_frequency": 10,
+                "features_requested": 3000,
+                "features_obtained": 29397,
+                "kfold": 3,
+                "architecture": "Conv1D_BiLSTM",
+                "epochs": 5,
+                "batch_size": 128,
+                "optimizer": "adam",
+                "loss": "sparse_categorical_crossentropy",
+                "sequence_max_length": 200,
+                "embedding_dimension": 64,
+                "elapsed_seconds": 186.68
+            },
+            "metricas": {
+                "cross_validation": {
+                    "accuracy": 0.9054828281418752,
+                    "balanced_accuracy": 0.9054975905242578,
+                    "macro_precision": 0.9111372329328882,
+                    "micro_precision": 0.9054828281418752,
+                    "macro_recall": 0.9054975905242578,
+                    "micro_recall": 0.9054828281418752,
+                    "macro_f1": 0.9056586130181549,
+                    "micro_f1": 0.9054828281418752,
+                    "macro_roc_auc": 0.9929059636774067,
+                    "micro_roc_auc": 0.9938548118151068
+                },
+                "test": {
+                    "accuracy": 0.92575,
+                    "balanced_accuracy": 0.9257500000000001,
+                    "macro_precision": 0.9306055722291802,
+                    "micro_precision": 0.92575,
+                    "macro_recall": 0.9257500000000001,
+                    "micro_recall": 0.92575,
+                    "macro_f1": 0.9267134265003062,
+                    "micro_f1": 0.92575,
+                    "macro_roc_auc": 0.9960402631578947,
+                    "micro_roc_auc": 0.9968181875
+                }
+            }
+        },
+        {
+            "modelo": "Exp_12_Conv1D_BiGRU",
+            "parametros": {
+                "preprocessing": [
+                    "lowercase"
+                ],
+                "minimum_frequency": 10,
+                "features_requested": 3000,
+                "features_obtained": 29397,
+                "kfold": 3,
+                "architecture": "Conv1D_BiGRU",
+                "epochs": 5,
+                "batch_size": 128,
+                "optimizer": "adam",
+                "loss": "sparse_categorical_crossentropy",
+                "sequence_max_length": 200,
+                "embedding_dimension": 64,
+                "elapsed_seconds": 205.55
+            },
+            "metricas": {
+                "cross_validation": {
+                    "accuracy": 0.8961687379467218,
+                    "balanced_accuracy": 0.8961971700149958,
+                    "macro_precision": 0.9027844374268623,
+                    "micro_precision": 0.8961687379467218,
+                    "macro_recall": 0.8961971700149958,
+                    "micro_recall": 0.8961687379467218,
+                    "macro_f1": 0.8972705218521719,
+                    "micro_f1": 0.8961687379467218,
+                    "macro_roc_auc": 0.9915964832456249,
+                    "micro_roc_auc": 0.9925628392523085
+                },
+                "test": {
+                    "accuracy": 0.919,
+                    "balanced_accuracy": 0.9189999999999999,
+                    "macro_precision": 0.9207763375212121,
+                    "micro_precision": 0.919,
+                    "macro_recall": 0.9189999999999999,
+                    "micro_recall": 0.919,
+                    "macro_f1": 0.91920102562901,
+                    "micro_f1": 0.919,
+                    "macro_roc_auc": 0.9962840789473683,
+                    "micro_roc_auc": 0.9969323157894736
+                }
+            }
+        }
+    ]
+}
