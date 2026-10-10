@@ -1,4 +1,6 @@
 '''
+A01029277 - Amilka Daniela Lopez Aguilar 
+distrib.pub
 RL - RNN y aproximación con reg log (grad descendiente) - Sistema de recomendación de películas
 Tendremos una lista de 3 géneros, 3 subgéneros por cada género y 20 películas por subgénero.
 Pasos:
@@ -243,31 +245,24 @@ logits_genero = np.zeros(len(genres))
 logits_subgenero = {g: np.zeros(len(subgenres[g])) for g in genres}
 logits_pelicula = {sg: np.zeros(len(peliculas[sg])) for sg in peliculas}
 
-
 def elegir_indice(logits):
     probs = softmax(logits)
     return int(np.random.choice(len(logits), p=probs))
-
 
 def actualizar_logits(logits, idx, recompensa):
     onehot = np.eye(len(logits))[idx]
     logits += lr * recompensa * (onehot - softmax(logits))
 
-
-def pedir_feedback(pelicula):
-    # menú para el usuario: la recompensa se asigna según si le gusta o no
-    while True:
-        respuesta = input(f"¿Te gustó '{pelicula}'? (s/n): ").strip().lower()
-        if respuesta in ('s', 'si', 'sí'):
-            return 1.0
-        if respuesta in ('n', 'no'):
-            return -1.0
-        print("Respuesta inválida, escribe 's' o 'n'.")
-
+def pedir_feedback(genero, subgenero):
+    # usuario simulado: le gusta solo su subgénero favorito
+    if genero == user['genero_favorito'] and subgenero == user['subgenero_favorito']:
+        return 1.0
+    return -1.0
 
 def main():
-    print("--- Sistema de recomendación de películas ---")
-    while True:
+    recompensas = []
+    # recompensa máxima: las últimas 20 recomendaciones fueron aceptadas
+    while len(recompensas) < 20 or sum(recompensas[-20:]) < 20:
         genero_idx = elegir_indice(logits_genero)
         genero = genres[genero_idx]
 
@@ -277,28 +272,18 @@ def main():
         pelicula_idx = elegir_indice(logits_pelicula[subgenero])
         pelicula = peliculas[subgenero][pelicula_idx]
 
-        print(f"\nGénero: {genero} | Subgénero: {subgenero}")
-        print(f"Te recomendamos: {pelicula}")
-
-        recompensa = pedir_feedback(pelicula)
+        recompensa = pedir_feedback(genero, subgenero)
+        recompensas.append(recompensa)
+        print(genero, subgenero, pelicula, recompensa)
 
         actualizar_logits(logits_genero, genero_idx, recompensa)
         actualizar_logits(logits_subgenero[genero], subgenero_idx, recompensa)
         actualizar_logits(logits_pelicula[subgenero], pelicula_idx, recompensa)
 
-        while True:
-            continuar = input("\n¿Quieres otra recomendación? (s/n): ").strip().lower()
-            if continuar in ('s', 'si', 'sí', 'n', 'no'):
-                break
-            print("Respuesta inválida, escribe 's' o 'n'.")
-        if continuar in ('n', 'no'):
-            break
-
-    print("Adiós")
-    print("\n--- Probabilidades aprendidas ---")
-    print("Géneros:", dict(zip(genres, softmax(logits_genero).round(3))))
+    print("iteraciones:", len(recompensas))
+    print(genres, softmax(logits_genero).round(2))
     for g in genres:
-        print(f"Subgéneros de {g}:", dict(zip(subgenres[g], softmax(logits_subgenero[g]).round(3))))
+        print(subgenres[g], softmax(logits_subgenero[g]).round(2))
 
 if __name__ == '__main__':
     main()

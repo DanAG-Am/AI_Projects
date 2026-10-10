@@ -1,0 +1,328 @@
+'''
+A01029277 - Amilka Daniela Lopez Aguilar
+minigrid simple environment - using Q-learning
+guardar la matriz del camino optimo y graficar rewards al fin del episodio el promedio de los rewards,
+la matriz debe guardarse y mantenerse episodio tras episodio
+inicializar la matriz desde el archivo cada episodio
+usando maximum likelihood como se ve? ahora en vez de calcular Q, calculo la distribucion de probabilidades de las acciones. -> metes los valores de un estado a softmax para que te de probabilidades de acciones. tomo cierta ilera, meto a softmax, muestreo, tomo el valor más alto
+q = valor esperado, promedio valores que se obtienen al tomar cada acción desde un estado determinado
+'''
+from __future__ import annotations
+from pathlib import Path
+import random
+import numpy as np
+import matplotlib.pyplot as plt
+from minigrid.core.grid import Grid
+from minigrid.core.mission import MissionSpace
+from minigrid.core.world_object import Door, Goal, Key, Wall, Lava, Floor
+from minigrid.minigrid_env import MiniGridEnv
+
+EPISODIOS = 3000
+SOLO_DEMOSTRAR = False
+SOLO_VERIFICAR = False
+MOSTRAR_AMBIENTE = True
+MOSTRAR_GRAFICAS = True
+ARCHIVO_Q = Path(__file__).with_name("minigrid_q_table.txt")
+
+historial_rewards = []
+
+class SimpleEnv(MiniGridEnv):
+    def __init__(
+        self,
+        size=19,
+        max_steps: int | None = None,
+        **kwargs,
+    ):
+        self.size = size
+        self.key_positions = []
+        self.lava_positions = []
+        # Starting position of the agent, random
+        self.start_agent_pos=(random.randint(1, size - 2), random.randint(1, size - 2))
+        
+        mission_space = MissionSpace(mission_func=self._gen_mission)
+        
+        if max_steps is None:
+            max_steps = 4 * size**2
+        
+        super().__init__(
+            mission_space=mission_space,
+            grid_size=size,
+            see_through_walls=True,
+            max_steps=max_steps,
+            **kwargs,
+        )
+
+    @staticmethod
+    def _gen_mission():
+        return "Reach the goal"
+
+    def _gen_grid(self, width, height):
+        self.grid = Grid(width, height)
+        self.grid.wall_rect(0, 0, width, height)
+        
+        # Place walls in straight lines
+        # Vertical walls
+        for y in range(1, height-1):
+            self.put_obj(Wall(), width // 2, y)
+        
+        # Horizontal walls
+        for x in range(1, width-1):
+            self.put_obj(Wall(), x, height//2)
+        
+        # Create openings in the walls
+        openings = [(width//2,5),(width//2,15),(5,height//2),(15,height//2),]
+        
+        for x, y in openings:
+            self.grid.set(x, y, None)
+
+        
+        # Place a goal square in the bottom-right corner
+        self.goal_pos = (width - 2, height - 2)
+        self.put_obj(Goal(), *self.goal_pos)
+        
+        self._place_agent()
+        
+        self.mission = "Reach the goal"
+
+    def _place_agent(self):
+        # self.agent_pos=(5,1)
+        # self.agent_dir=0
+
+        # return
+        while True:
+            x = random.randint(1, self.size - 2)
+            y = random.randint(1, self.size - 2)
+            # x=17
+            # y=2
+            pos = (x, y)
+
+            # if(x < self.size//2 + 1 or y < self.size//2 + 1):
+                # continue
+            # Check if the position is empty (not wall, lava, floor, or goal)
+            if (self.grid.get(*pos) is None and
+                pos != self.goal_pos):
+                self.agent_pos = pos
+                self.agent_dir = random.randint(0, 3)  # Random direction
+                break
+
+    def reset(self, **kwargs):
+        self.stepped_floors = set()
+        obs = super().reset(**kwargs)
+        # self._place_agent()  # Place the agent in a new random position
+        return obs
+
+    def step(self, action):
+        prev_pos=tuple(self.agent_pos)
+        prev_dir=self.agent_dir
+        obs, reward, terminated, truncated, info = super().step(action)
+
+        if isinstance(self.grid.get(*self.agent_pos), Goal):
+            reward = 10.0
+            terminated = True
+        elif prev_dir == self.agent_dir and prev_pos == tuple(self.agent_pos):
+            reward = -0.3
+        else:
+            reward = -0.01
+        return obs, reward, terminated, truncated, info
+
+# definimos la clase agent a interactuar con el ambiente. Agente debe aprender y explorar su entorno mediante Q-learning.
+    class Agent():
+        def __init__(self, env, q_values=None):
+            self.env = env
+            self.actions = (env.actions.left, env.actions.right, env.actions.forward) # retrieve de coordenadas
+            shape = (env.width * env.height * 4, len(self.actions))
+            self.q_values = np.zeros(shape, dtype=float) if q_values is None else np.asarray(q_values, dtype=float)
+            if not self.validate_q_values():
+                self.q_values = np.zeros(shape, dtype=float)
+                print("Matriz no valida. Se inicia en ceros.")
+            self.reached_goals = []
+            self.episode_steps = []
+            self.update_position()
+
+        def validate_q_values(self):
+            expected = (self.env.width * self.env.height * 4, len(self.actions))
+            return self.q_values.shape == expected and np.isfinite(self.q_values).all()
+
+        def save(self, path):
+            if not self.validate_q_values():
+                print("Matriz no valida. No se guardo.")
+                return
+            np.savetxt(path, self.q_values, fmt="%.18e",
+                       header=f"Q-learning: width={self.env.width}, height={self.env.height}; "
+                              "state=(x*height+y)*4+direction; actions=left,right,forward")
+            restored = np.loadtxt(path, ndmin=2)
+            if not np.array_equal(self.q_values, restored):
+                print("Los valores guardados no coinciden.")
+                return
+            print("Matriz guardada.")
+
+        def load(self, path):
+            previous = self.q_values
+            self.q_values = np.loadtxt(path, ndmin=2)
+            if not self.validate_q_values():
+                self.q_values = previous
+                print("Matriz no valida. Se conserva la anterior.")
+                return
+            print("Matriz cargada.")
+
+        def update_position(self):
+            self.position = self.env.agent_pos
+            self.direction = self.env.agent_dir
+
+        def state(self):
+            return (int(self.position[0]) * self.env.height + int(self.position[1])) * 4 + self.direction
+
+        def choose_action(self, epsilon=0.5): # aumentar en .25
+            values = self.q_values[self.state()]
+            if random.random() < epsilon:
+                return random.randrange(len(self.actions))
+            best = max(values)
+            return random.choice([index for index, value in enumerate(values) if value == best])
+
+        def act(self, action=None):
+            if action is None:
+                action = self.actions[self.choose_action()]
+            obs, reward, terminated, truncated, info = self.env.step(action)
+            self.update_position()
+            return obs, reward, terminated, truncated, info
+
+        def train(self, episodes=3000, learning_rate=0.1, discount=0.95): #-> añadir un discount para que el agente considere recompensas futuras, ya que de otro modo solo se enfoca en recompensas inmediatas.
+            if episodes <= 0:
+                print("El numero de episodios debe ser positivo.")
+                return
+            historial_rewards.clear()
+            self.reached_goals.clear()
+            self.episode_steps.clear()
+            for episode in range(episodes):
+                self.env.reset()
+                self.update_position()
+                epsilon = max(0.05, 1.0 - episode / (episodes * 0.8))
+                episode_reward = 0
+                while True:
+                    state = self.state()
+                    action_index = self.choose_action(epsilon)
+                    _, reward, terminated, truncated, _ = self.act(self.actions[action_index])
+                    episode_reward += reward
+                    future = 0 if terminated else np.max(self.q_values[self.state()])
+                    values = self.q_values[state]
+                    values[action_index] += learning_rate * (
+                        reward + discount * future - values[action_index]
+                    )
+                    if terminated or truncated:
+                        break
+                historial_rewards.append(episode_reward)
+                self.reached_goals.append(terminated and reward == 10.0)
+                self.episode_steps.append(self.env.step_count)
+                if (episode + 1) % 100 == 0:
+                    print(f"Episodio {episode + 1}/{episodes}: "
+                          f"recompensa promedio={np.mean(historial_rewards[-100:]):.2f}")
+            print(f"Recompensa promedio: {np.mean(historial_rewards):.2f}")
+
+        def run(self):
+            self.env.reset()
+            self.update_position()
+            while True:
+                action_index = self.choose_action(epsilon=0)
+                _, reward, terminated, truncated, _ = self.act(self.actions[action_index])
+                if terminated or truncated:
+                    return reward, terminated and reward == 10.0
+
+
+def verify_rewards():
+    env = SimpleEnv(max_steps=2)
+    cases = [
+        ("Llegar a la meta", (16, 17), 0, env.actions.forward, 10.0),
+        ("Chocar contra pared", (1, 1), 2, env.actions.forward, -0.3),
+        ("Avanzar", (1, 1), 0, env.actions.forward, -0.01),
+        ("Girar izquierda", (1, 1), 0, env.actions.left, -0.01),
+        ("Girar derecha", (1, 1), 0, env.actions.right, -0.01),
+    ]
+    print("Verificacion de recompensas:")
+    for label, position, direction, action, expected in cases:
+        env.reset()
+        env.agent_pos = position
+        env.agent_dir = direction
+        _, reward, terminated, truncated, _ = env.step(action)
+        valid = (isinstance(reward, (float, np.floating))
+                 and np.isclose(reward, expected)
+                 and terminated == (expected == 10.0)
+                 and not truncated)
+        print(f"{label}: {reward:+.2f} ({'correcto' if valid else 'incorrecto'})")
+        if not valid:
+            env.close()
+            return False
+
+    env.reset()
+    env.agent_pos = (1, 1)
+    env.agent_dir = 0
+    env.step(env.actions.forward)
+    _, reward, terminated, truncated, _ = env.step(env.actions.forward)
+    valid = np.isclose(reward, -0.01) and truncated and not terminated
+    print(f"Limite de pasos: {reward:+.2f} ({'correcto' if valid else 'incorrecto'})")
+    env.close()
+    if not valid:
+        return False
+    print("Recompensas verificadas.")
+    return True
+
+
+def main():
+    if not verify_rewards():
+        print("No se pudo verificar el ambiente.")
+        return
+    if SOLO_VERIFICAR:
+        return
+    if EPISODIOS <= 0:
+        print("El numero de episodios debe ser positivo.")
+        return
+    if SOLO_DEMOSTRAR and not ARCHIVO_Q.is_file():
+        print("No existe una matriz guardada para demostrar.")
+        return
+
+    training_env = SimpleEnv(max_steps=1000)
+    training_env.reset()
+    agent = SimpleEnv.Agent(training_env)
+    if ARCHIVO_Q.is_file():
+        agent.load(ARCHIVO_Q)
+    else:
+        print("Matriz nueva en ceros.")
+    if not SOLO_DEMOSTRAR:
+        agent.train(episodes=EPISODIOS)
+        agent.save(ARCHIVO_Q)
+    reached_goals = agent.reached_goals
+    training_env.close()
+
+    env = SimpleEnv(render_mode="human" if MOSTRAR_AMBIENTE else None, max_steps=200)
+    agent = SimpleEnv.Agent(env, q_values=agent.q_values)
+    before_demo = agent.q_values.copy()
+    reward, reached_goal = agent.run()
+    if not np.array_equal(before_demo, agent.q_values):
+        print("La demostracion modifico la matriz Q.")
+        env.close()
+        return
+    print(f"Meta alcanzada: {'si' if reached_goal else 'no'}. Pasos: {env.step_count}")
+    env.close()
+    if SOLO_DEMOSTRAR or not MOSTRAR_GRAFICAS:
+        return
+    window = min(100, len(historial_rewards)) # ventana para calcular promedios móviles al graficar 
+    episodes = []
+    average_rewards = []
+    success_rate = []
+    for end in range(window, len(historial_rewards) + 1):
+        start = end - window
+        episodes.append(end)
+        average_rewards.append(np.mean(historial_rewards[start:end]))
+        success_rate.append(100 * np.mean(reached_goals[start:end]))
+
+    plt.figure(figsize=(10, 7))
+    plt.subplot(2, 1, 1)
+    plt.plot(episodes, average_rewards, label="Reward AVG")
+    plt.ylabel("Reward")
+    plt.title("Training Rewards")
+    plt.legend()
+
+if __name__ == "__main__":
+    main()
+
+
+
