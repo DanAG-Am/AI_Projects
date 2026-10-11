@@ -145,3 +145,5 @@ vite.config.ts.timestamp-*
 # DS_Store
 .DS_Store
 
+/TC3009/PLN/01 PLN Techniques/src/saved_roberta_sentiment/model.safetensors
+
