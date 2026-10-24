@@ -8,7 +8,7 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.special import softmax
-from minigrid_simple_env import SimpleEnv, verify_rewards
+from minigrid.minigrid_simple_env import SimpleEnv, verify_rewards
 
 EPISODIOS = 3000
 REINICIAR_CONTEOS = True
