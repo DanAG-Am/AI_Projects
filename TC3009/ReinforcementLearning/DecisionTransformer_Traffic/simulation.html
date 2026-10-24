@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Simulación de vehículos por zonas</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: #172033;
+      background: #f3f6fb;
+    }
+
+    * { box-sizing: border-box; }
+
+    body { margin: 0; padding: 32px 18px; }
+
+    main { max-width: 1380px; margin: 0 auto; }
+
+    h1 { margin: 0 0 8px; font-size: clamp(1.6rem, 4vw, 2.3rem); }
+
+    .subtitle { margin: 0; color: #5b667a; }
+
+    .panel {
+      margin-top: 22px;
+      padding: 20px;
+      border: 1px solid #dce3ee;
+      border-radius: 16px;
+      background: white;
+      box-shadow: 0 8px 28px #1d355710;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+    }
+
+    button {
+      padding: 9px 15px;
+      border: 0;
+      border-radius: 9px;
+      color: white;
+      background: #2457c5;
+      font: inherit;
+      font-weight: 650;
+      cursor: pointer;
+    }
+
+    button.secondary { color: #24324a; background: #e9eef7; }
+    button:disabled { opacity: 0.55; cursor: not-allowed; }
+
+    .step-control {
+      display: grid;
+      grid-template-columns: auto minmax(140px, 1fr) auto;
+      align-items: center;
+      gap: 12px;
+      flex: 1 1 320px;
+      color: #46536a;
+      font-size: 0.9rem;
+    }
+
+    input[type="range"] { width: 100%; accent-color: #2457c5; }
+
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .metric {
+      padding: 12px;
+      border-radius: 10px;
+      background: #f4f7fc;
+    }
+
+    .metric-label { display: block; color: #657188; font-size: 0.8rem; }
+    .metric-value { display: block; margin-top: 4px; font-weight: 700; }
+
+    .scene-shell {
+      position: relative;
+      height: min(74vh, 760px);
+      min-height: 500px;
+      margin-top: 18px;
+      overflow: hidden;
+      border: 1px solid #dce3ee;
+      border-radius: 14px;
+      background: #bcd7e8;
+      touch-action: none;
+      cursor: grab;
+    }
+
+    .scene-shell:active { cursor: grabbing; }
+
+    .scene-shell canvas { display: block; width: 100%; height: 100%; }
+    .scene-help {
+      position: absolute;
+      right: 12px;
+      bottom: 12px;
+      padding: 7px 10px;
+      border-radius: 8px;
+      color: #fff;
+      background: #172033c9;
+      font-size: 0.78rem;
+      pointer-events: none;
+    }
+
+    .scene-status {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      padding: 9px 12px;
+      border: 1px solid #ffffff80;
+      border-radius: 10px;
+      color: #fff;
+      background: #172033c9;
+      font-size: 0.86rem;
+      font-weight: 650;
+      pointer-events: none;
+    }
+
+    .signal-lamp {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #f05a56;
+      box-shadow: 0 0 10px #f05a56;
+    }
+
+    .legend { margin: 14px 0 0; color: #657188; font-size: 0.85rem; }
+    .message { margin: 0; color: #46536a; }
+    .message.error { color: #b42318; }
+
+    @media (max-width: 720px) {
+      .scene-shell { height: 62vh; min-height: 390px; }
+      .summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Simulación de vehículos por zonas</h1>
+      <p class="subtitle">Una ciudad 3D ampliada con tráfico continuo, corredores urbanos y decisiones de reubicación por zona.</p>
+    </header>
+
+    <section class="panel" aria-label="Controles y simulación">
+      <div class="toolbar">
+        <button id="play-button" type="button" disabled>▶ Reproducir</button>
+        <button id="reset-button" class="secondary" type="button" disabled>↺ Reiniciar</button>
+        <label class="step-control" for="step-slider">
+          <span>Paso</span>
+          <input id="step-slider" type="range" min="0" max="0" value="0" disabled>
+          <output id="step-output">0 / 0</output>
+        </label>
+      </div>
+
+      <div class="summary" aria-live="polite">
+        <div class="metric"><span class="metric-label">Agente</span><span id="agent-value" class="metric-value">Cargando...</span></div>
+        <div class="metric"><span class="metric-label">Acción</span><span id="action-value" class="metric-value">-</span></div>
+        <div class="metric"><span class="metric-label">Recompensa del paso</span><span id="reward-value" class="metric-value">-</span></div>
+        <div class="metric"><span class="metric-label">Recompensa acumulada</span><span id="total-value" class="metric-value">-</span></div>
+      </div>
+
+      <div id="scene-shell" class="scene-shell" aria-label="Mapa 3D interactivo; arrastra para girar">
+        <div class="scene-status">
+          <span id="time-value">07:00 · Mañana</span>
+          <span class="signal-lamp" aria-hidden="true"></span>
+          <span id="signal-value">Semáforos activos</span>
+        </div>
+        <div class="scene-help">Arrastra: rotar · Rueda: zoom · WASD: mover cámara · Flechas: rotar</div>
+      </div>
+      <p class="legend">Explora una cuadrícula urbana con 24 vehículos de tráfico, la flota del agente, semáforos y zonas de demanda. Cada paso del episodio representa una hora simulada.</p>
+      <p id="message" class="message" role="status">Cargando datos del episodio...</p>
+    </section>
+  </main>
+
+  <script type="module" src="./simulation-3d.js"></script>
+</body>
+</html>
