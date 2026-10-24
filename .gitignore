@@ -146,4 +146,4 @@ vite.config.ts.timestamp-*
 .DS_Store
 
 /TC3009/PLN/01 PLN Techniques/src/saved_roberta_sentiment/model.safetensors
-
+/TC3009/Computer_Vision/data/cifar-10-python.tar.gz
