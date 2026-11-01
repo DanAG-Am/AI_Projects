@@ -147,3 +147,6 @@ vite.config.ts.timestamp-*
 
 /TC3009/PLN/01 PLN Techniques/src/saved_roberta_sentiment/model.safetensors
 /TC3009/Computer_Vision/data/cifar-10-python.tar.gz
+/TC3009/Computer_Vision/data
+/TC3009/Computer_Vision/models
+*/pycache

@@ -1,0 +1,2 @@
+dataset,representation,algorithm,C,class_weight,cv_accuracy_mean,cv_accuracy_std,cv_macro_f1_mean,test_accuracy,test_balanced_accuracy,test_macro_f1,precision_negative,recall_negative,f1_negative,precision_positive,recall_positive,f1_positive
+binary,tfidf_word_char,LogisticRegression,5.0,none,0.8102461556670623,0.0035552646836474297,0.7314878291930863,0.7865168539325843,0.7134156896687387,0.7301834943710663,0.7927927927927928,0.49162011173184356,0.6068965517241379,0.7848699763593381,0.9352112676056338,0.8534704370179949

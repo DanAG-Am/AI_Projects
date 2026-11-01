@@ -1,0 +1,11 @@
+dataset,representation,train_shape,test_shape
+3classes,bow,"(6136, 6055)","(966, 6055)"
+3classes,one_hot,"(6136, 6055)","(966, 6055)"
+3classes,tfidf,"(6136, 6055)","(966, 6055)"
+3classes,ngrams,"(6136, 20000)","(966, 20000)"
+3classes,ensemble,"(6136, 37854)","(966, 37854)"
+binary,bow,"(3104, 3817)","(534, 3817)"
+binary,one_hot,"(3104, 3817)","(534, 3817)"
+binary,tfidf,"(3104, 3817)","(534, 3817)"
+binary,ngrams,"(3104, 12453)","(534, 12453)"
+binary,ensemble,"(3104, 29724)","(534, 29724)"
