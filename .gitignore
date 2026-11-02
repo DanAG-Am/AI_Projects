@@ -150,3 +150,8 @@ vite.config.ts.timestamp-*
 /TC3009/Computer_Vision/data
 /TC3009/Computer_Vision/models
 */pycache
+
+# Generated PLN model and vector artifacts kept locally
+/TC3009/PLN/01 PLN Techniques/vector_outputs/**/*.pt
+/TC3009/PLN/01 PLN Techniques/vector_outputs/**/*.npy
+/TC3009/PLN/01 PLN Techniques/vector_outputs/**/*.npz

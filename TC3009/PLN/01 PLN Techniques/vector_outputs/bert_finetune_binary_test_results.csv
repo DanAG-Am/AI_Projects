@@ -1,2 +1,0 @@
-dataset,representation,algorithm,epochs,cv_accuracy_mean,cv_accuracy_std,cv_macro_f1_mean,test_accuracy,test_balanced_accuracy,test_macro_f1,precision_negative,recall_negative,f1_negative,precision_positive,recall_positive,f1_positive
-binary,bert_base_finetuned,BertForSequenceClassification,2,0.8981958762886598,0.006378540551940483,0.8755694716830127,0.8951310861423221,0.8961995436304981,0.8853462157809984,0.8090452261306532,0.8994413407821229,0.8518518518518519,0.9462686567164179,0.8929577464788733,0.9188405797101449

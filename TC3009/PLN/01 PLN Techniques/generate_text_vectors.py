@@ -91,20 +91,17 @@ def _groups(rows):
 
 
 def _vectorizer(name, max_features):
-    if name == "bow":
-        return CountVectorizer(lowercase=False, max_features=max_features, min_df=2)
-    if name == "one_hot":
-        return CountVectorizer(lowercase=False, binary=True, max_features=max_features, min_df=2)
-    if name == "tfidf":
-        return TfidfVectorizer(lowercase=False, max_features=max_features, min_df=2)
-    if name == "ngrams":
-        return TfidfVectorizer(lowercase=False, ngram_range=(1, 3), max_features=max_features, min_df=2)
-    if name == "ensemble":
-        return FeatureUnion([
+    vectorizers = {
+        "bow": CountVectorizer(lowercase=False, max_features=max_features, min_df=2),
+        "one_hot": CountVectorizer(lowercase=False, binary=True, max_features=max_features, min_df=2),
+        "tfidf": TfidfVectorizer(lowercase=False, max_features=max_features, min_df=2),
+        "ngrams": TfidfVectorizer(lowercase=False, ngram_range=(1, 3), max_features=max_features, min_df=2),
+        "ensemble": FeatureUnion([
             ("word", TfidfVectorizer(lowercase=False, ngram_range=(1, 2), max_features=max_features, min_df=2)),
             ("char", TfidfVectorizer(lowercase=False, analyzer="char", ngram_range=(3, 5), max_features=max_features, min_df=2)),
-        ])
-    raise ValueError(f"Representación desconocida: {name}")
+        ]),
+    }
+    return vectorizers[name]
 
 
 def _text_vectors(representation, max_features, train_texts, valid_texts):
@@ -345,8 +342,6 @@ def search_neural_networks(preprocess, output_dir="vector_outputs", folds=3):
     cv, cv_rows, test_rows = StratifiedGroupKFold(n_splits=folds, shuffle=True, random_state=42), [], []
     dense_names = ("word2vec_mean_l2", "glove_twitter_25_mean_l2", "bert_base_uncased_mean_l2")
     sparse_names = ("bow", "one_hot", "tfidf", "ngrams", "ensemble")
-    print(f"Red neuronal en {device}")
-
     for dataset, (train_file, test_file, allowed) in DATASETS.items():
         train, test = _filter_duplicates(_read(root / train_file, allowed), _read(root / test_file, allowed))
         labels = sorted(allowed)
@@ -363,13 +358,9 @@ def search_neural_networks(preprocess, output_dir="vector_outputs", folds=3):
         for representation, max_features in representations:
             is_sparse = representation in sparse_names
             if not is_sparse:
-                filename = "roberta" if representation == "roberta" else representation
-                dense_train = np.load(folder / f"{filename}_train.npy", mmap_mode="r")
-                dense_test = np.load(folder / f"{filename}_test.npy", mmap_mode="r")
-                if len(dense_train) != len(train) or len(dense_test) != len(test):
-                    raise ValueError(f"Dimensiones de {representation} no coinciden con los datasets.")
+                dense_train = np.load(folder / f"{representation}_train.npy", mmap_mode="r")
+                dense_test = np.load(folder / f"{representation}_test.npy", mmap_mode="r")
             for config in NN_CONFIGS:
-                scores = []
                 for fold, (train_ids, valid_ids) in enumerate(splits, 1):
                     if is_sparse:
                         fold_train = [texts[i] for i in train_ids]
@@ -389,10 +380,7 @@ def search_neural_networks(preprocess, output_dir="vector_outputs", folds=3):
                         x_train, x_valid = dense_train[train_ids], dense_train[valid_ids]
                     prediction = _nn_predict(x_train, y_train[train_ids], x_valid, config, len(labels), device, 42 + fold)
                     score = f1_score(y_train[valid_ids], prediction, average="macro")
-                    scores.append(score)
                     cv_rows.append({"dataset": dataset, "representation": representation, "max_features": max_features, **config, "fold": fold, "accuracy": accuracy_score(y_train[valid_ids], prediction), "f1_macro": score})
-                print(f"{dataset} | {representation} | max_features={max_features} | {config['name']} | macro-F1={np.mean(scores):.4f}")
-
         dataset_rows = pd.DataFrame([row for row in cv_rows if row["dataset"] == dataset])
         keys = ["representation", "max_features", "name", "hidden", "dropout", "learning_rate", "batch_size", "epochs"]
         summary = dataset_rows.groupby(keys, dropna=False).agg({"accuracy": ["mean", "std"], "f1_macro": ["mean", "std"]}).reset_index()
@@ -517,21 +505,19 @@ def search_ensemble_combinations(preprocess, output_dir="vector_outputs", folds=
 
 
 def _classical_vectorizer(representation):
-    word = TfidfVectorizer(lowercase=False, ngram_range=(1, 2), min_df=2, sublinear_tf=True)
-    char = TfidfVectorizer(lowercase=False, analyzer="char_wb", ngram_range=(3, 5), min_df=2, sublinear_tf=True)
-    if representation == "tfidf_word":
-        return word
-    if representation == "tfidf_char":
-        return char
-    if representation == "tfidf_word_char":
-        return FeatureUnion([("word", word), ("char", char)])
-    raise ValueError(f"Representación clásica desconocida: {representation}")
+    vectorizers = {
+        "tfidf_word": TfidfVectorizer(lowercase=False, ngram_range=(1, 2), min_df=2, sublinear_tf=True),
+        "tfidf_char": TfidfVectorizer(lowercase=False, analyzer="char_wb", ngram_range=(3, 5), min_df=2, sublinear_tf=True),
+        "tfidf_word_char": FeatureUnion([
+            ("word", TfidfVectorizer(lowercase=False, ngram_range=(1, 2), min_df=2, sublinear_tf=True)),
+            ("char", TfidfVectorizer(lowercase=False, analyzer="char_wb", ngram_range=(3, 5), min_df=2, sublinear_tf=True)),
+        ]),
+    }
+    return vectorizers[representation]
 
 
-def _classical_model(algorithm, c, class_weight):
-    if algorithm == "LogisticRegression":
-        return LogisticRegression(C=c, class_weight=class_weight, solver="liblinear", max_iter=3000, random_state=42)
-    raise ValueError(f"Algoritmo clásico desconocido: {algorithm}")
+def _classical_model(c, class_weight):
+    return LogisticRegression(C=c, class_weight=class_weight, solver="liblinear", max_iter=3000, random_state=42)
 
 
 def _bert_tensors(tokenizer, texts, labels=None, max_length=48):
@@ -693,7 +679,7 @@ def search_classical_models(preprocess, output_dir="vector_outputs", folds=3):
         for c in CLASSICAL_C_VALUES:
             for class_weight in (None, "balanced"):
                 for fold, (train_ids, valid_ids, x_train, x_valid) in enumerate(fold_vectors, 1):
-                    model = _classical_model(algorithm, c, class_weight).fit(x_train, y_train[train_ids])
+                    model = _classical_model(c, class_weight).fit(x_train, y_train[train_ids])
                     prediction = model.predict(x_valid)
                     cv_rows.append({
                         "representation": representation,
@@ -717,7 +703,7 @@ def search_classical_models(preprocess, output_dir="vector_outputs", folds=3):
     vectorizer = _classical_vectorizer(best["representation"])
     x_train = vectorizer.fit_transform(texts)
     x_test = vectorizer.transform(test_texts)
-    model = _classical_model(best["algorithm"], best["C"], None if best["class_weight"] == "none" else best["class_weight"])
+    model = _classical_model(best["C"], None if best["class_weight"] == "none" else best["class_weight"])
     model.fit(x_train, y_train)
     prediction = model.predict(x_test)
     precision, recall, f1, _ = precision_recall_fscore_support(y_test, prediction, labels=np.arange(len(labels)), zero_division=0)
@@ -998,7 +984,7 @@ def _fit_candidate_for_export(candidate, preprocess, output_dir):
 
 
 def run_complete_experiments(preprocess, output_dir="vector_outputs", top_n=20):
-    """Ejecuta búsquedas PLN, combina sus métricas y exporta los mejores modelos."""
+    """Ejecuta búsquedas PLN y exporta hasta top_n modelos por conjunto de datos."""
     root = Path(__file__).parent
     output_dir = Path(output_dir)
     if not output_dir.is_absolute():
@@ -1092,8 +1078,9 @@ def run_complete_experiments(preprocess, output_dir="vector_outputs", top_n=20):
     candidate_frame = candidate_frame.sort_values(
         ["cv_accuracy_mean", "cv_macro_f1_mean"],
         ascending=False,
-    ).head(top_n).reset_index(drop=True)
-    candidate_frame.insert(0, "rank", np.arange(1, len(candidate_frame) + 1))
+    ).copy()
+    candidate_frame["rank"] = candidate_frame.groupby("dataset", sort=False).cumcount() + 1
+    candidate_frame = candidate_frame[candidate_frame["rank"] <= top_n].reset_index(drop=True)
 
     output_rows = []
     for _, candidate_series in candidate_frame.iterrows():
